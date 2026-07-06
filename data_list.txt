@@ -1,0 +1,5 @@
+/* list of data you will find in the unzipped input data file */
+
+1. pc11_district.shp/dbx: district shapefiles
+2. districts_treat.dta: districts with treat/control indicator
+
