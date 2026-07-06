@@ -13,7 +13,13 @@
 global out ~/paper_elec_norms_repl/exhibits
 
 /* point to code folder */
-global code ~/paper_elec_norms/code
+global code ~/paper_elec_norms_repl/code
 
 /* fig 1: treatment and control map of india */
 do $code/map_treat.do
+
+/* fig 2 and a.2: baseline flfp and female shares of LF */
+do $code/descriptives.do
+
+/* table 1: headline aggregate results, and table a.6: robustness to large villages */
+do $code/flfp_main.do

@@ -2,4 +2,5 @@
 
 1. pc11_district.shp/dbx: district shapefiles
 2. districts_treat.dta: districts with treat/control indicator
-
+3. ihds_05.dta: ihds for descriptives
+4. elec_analysis.dta: main electrification analysis dataset
