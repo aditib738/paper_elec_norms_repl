@@ -4,3 +4,4 @@
 2. districts_treat.dta: districts with treat/control indicator
 3. ihds_05.dta: ihds for descriptives
 4. elec_analysis.dta: main electrification analysis dataset
+5. ec_working.dta: baseline firm ownership (ec 2005)

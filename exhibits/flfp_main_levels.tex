@@ -1,0 +1,24 @@
+{
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\begin{tabular}{l*{4}{c}}
+\hline\hline
+            &\multicolumn{1}{c}{(1)}         &\multicolumn{1}{c}{(2)}         &\multicolumn{1}{c}{(3)}         &\multicolumn{1}{c}{(4)}         \\
+            &Ln(employed men - Ag)         &Ln(employed women - Ag)         &Ln(employed men - Non-ag)         &Ln(employed women - Non-ag)         \\
+\hline
+1[10th-Plan district] x 1[1991]&      -0.002         &       0.041         &       0.013         &       0.054         \\
+            &     (0.022)         &     (0.047)         &     (0.031)         &     (0.058)         \\
+[1em]
+1[10th-Plan district] x 1[2011]&      -0.075\sym{***}&      -0.048         &       0.006         &       0.078         \\
+            &     (0.029)         &     (0.038)         &     (0.044)         &     (0.056)         \\
+[1em]
+pc\_m        &       0.000\sym{***}&                     &       0.000         &                     \\
+            &     (0.000)         &                     &     (0.000)         &                     \\
+[1em]
+pc\_f        &                     &       0.000\sym{***}&                     &       0.000         \\
+            &                     &     (0.000)         &                     &     (0.000)         \\
+\hline
+\(N\)       &     1625477         &     1625463         &     1410076         &     1410076         \\
+Mean of dep var&        4.52         &        3.21         &        3.29         &        2.36         \\
+\hline\hline
+\end{tabular}
+}

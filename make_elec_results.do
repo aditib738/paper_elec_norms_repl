@@ -23,3 +23,12 @@ do $code/descriptives.do
 
 /* table 1: headline aggregate results, and table a.6: robustness to large villages */
 do $code/flfp_main.do
+
+/* table 2: IV table */
+do $code/flfp_main_iv.do
+
+/* table 3: levels table, aggregate */
+do $code/flfp_main_levels.do
+
+/* table 4: firm ownership dynamic */
+do $code/firm_ownership.do
