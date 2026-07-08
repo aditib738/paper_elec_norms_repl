@@ -32,3 +32,6 @@ do $code/flfp_main_levels.do
 
 /* table 4: firm ownership dynamic */
 do $code/firm_ownership.do
+
+/* table 5: caste analysis */
+do $code/flfp_caste_analysis.do
