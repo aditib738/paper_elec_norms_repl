@@ -6,3 +6,4 @@
 4. elec_analysis.dta: main electrification analysis dataset
 5. ec_working.dta: baseline firm ownership (ec 2005)
 6. ihds_dist_analysis.dta: ihds caste shares
+7. soil_analysis.dta: analysis dataset merged with wris soil data 

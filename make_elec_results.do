@@ -38,3 +38,6 @@ do $code/flfp_caste_analysis.do
 
 /* table 6: purdah main result */
 do $code/purdah_analysis.do
+
+/* table 7: clay analysis */
+do $code/clay_analysis.do
