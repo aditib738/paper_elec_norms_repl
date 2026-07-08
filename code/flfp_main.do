@@ -28,7 +28,6 @@ drop pop
 /* All villages */
 /****************/
 
-/* first do it with outcomes already in data */
 /* A. pc_mainwork_fshare */
 reghdfe pc_mainwork_fshare treat_pre treat_post  [pw = pc_tot_p], ///
 absorb(district period state_trend dec_trend quart_trend) ///

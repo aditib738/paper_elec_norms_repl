@@ -35,3 +35,6 @@ do $code/firm_ownership.do
 
 /* table 5: caste analysis */
 do $code/flfp_caste_analysis.do
+
+/* table 6: purdah main result */
+do $code/purdah_analysis.do
