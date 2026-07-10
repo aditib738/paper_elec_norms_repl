@@ -58,3 +58,17 @@ do $code/first_stage.do
 
 /* table a.1.: treatment timing robustness */
 do $code/flfp_main_robust_timing.do
+
+/* table a.2.: village FE */
+do $code/flfp_main_village_fe.do
+
+/* table a.3: q-values */
+do $code/qvalues.do
+
+/* table a.4: interacted w baseline covariates */
+do $code/main_robustness.do
+
+/* fig a.5 */
+
+
+/* table a.5 */
