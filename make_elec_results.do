@@ -15,10 +15,14 @@ global out ~/paper_elec_norms_repl/exhibits
 /* point to code folder */
 global code ~/paper_elec_norms_repl/code
 
+/********/
+/* Main */
+/********/
+
 /* fig 1: treatment and control map of india */
 do $code/map_treat.do
 
-/* fig 2 and a.2: baseline flfp and female shares of LF */
+/* fig 2, a.3 and a.4: baseline flfp and female shares of LF */
 do $code/descriptives.do
 
 /* table 1: headline aggregate results, and table a.6: robustness to large villages */
@@ -41,3 +45,13 @@ do $code/purdah_analysis.do
 
 /* table 7: clay analysis */
 do $code/clay_analysis.do
+
+/************/
+/* Appendix */
+/************/
+
+/* fig a.1. nigtlights map */
+do $code/nl_map.do
+
+/* fig a.2. first stage event study */
+do $code/first_stage.do
