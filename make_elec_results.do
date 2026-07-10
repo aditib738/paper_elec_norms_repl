@@ -55,3 +55,6 @@ do $code/nl_map.do
 
 /* fig a.2. first stage event study */
 do $code/first_stage.do
+
+/* table a.1.: treatment timing robustness */
+do $code/flfp_main_robust_timing.do
