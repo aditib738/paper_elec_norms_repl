@@ -9,3 +9,4 @@
 7. soil_analysis.dta: analysis dataset merged with wris soil data 
 8. dmsp_pc11dist.dta: nightlights district level
 9. covars.dta: baseline covariates
+10. shrug_ec90.dta: shrug ec 1990 data for extra pretrends

@@ -1,0 +1,20 @@
+{
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\begin{tabular}{l*{8}{c}}
+\hline\hline
+            &\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}&\multicolumn{1}{c}{(5)}&\multicolumn{1}{c}{(6)}&\multicolumn{1}{c}{(7)}&\multicolumn{1}{c}{(8)}\\
+            &\multicolumn{1}{c}{Main}&\multicolumn{1}{c}{Ag lab}&\multicolumn{1}{c}{Cult}&\multicolumn{1}{c}{Other}&\multicolumn{1}{c}{HH}&\multicolumn{1}{c}{Oeners}&\multicolumn{1}{c}{Emp women}&\multicolumn{1}{c}{Non-ag}\\
+\hline
+treat\_pre   &     0.00122         &  -0.0000622         &    -0.00397         &     0.00392         &     0.00219         &     0.00355         &    -0.00366         &    -0.00397         \\
+            &   (0.00516)         &   (0.00611)         &   (0.00421)         &   (0.00645)         &    (0.0110)         &   (0.00263)         &    (0.0112)         &   (0.00660)         \\
+[1em]
+treat\_post  &     0.00856\sym{**} &     0.00481         &     0.00356         &      0.0148\sym{***}&     0.00727         &    -0.00514         &      0.0138         &      0.0103         \\
+            &   (0.00388)         &   (0.00523)         &   (0.00403)         &   (0.00449)         &   (0.00663)         &   (0.00575)         &   (0.00985)         &   (0.00701)         \\
+\hline
+Mean dep var&        0.24         &        0.30         &        0.18         &        0.24         &        0.27         &        0.10         &        0.33         &        0.28         \\
+N           &      964874         &      814013         &      937064         &      871847         &      535241         &      825708         &      825708         &      825708         \\
+\hline\hline
+\multicolumn{9}{l}{\footnotesize Standard errors in parentheses}\\
+\multicolumn{9}{l}{\footnotesize \sym{*} \(p<0.10\), \sym{**} \(p<0.05\), \sym{***} \(p<0.01\)}\\
+\end{tabular}
+}

@@ -69,6 +69,18 @@ do $code/qvalues.do
 do $code/main_robustness.do
 
 /* fig a.5 */
-
+do $code/flfp_ec_graphs.do
 
 /* table a.5 */
+do $code/matched_did.do
+
+/* table a.7 */
+do $code/flfp_main_disag.do
+
+/* table a.8 */
+do $code/ec_firm_pre.do
+
+/* figure a.6 */
+
+
+/* figure a.7 */

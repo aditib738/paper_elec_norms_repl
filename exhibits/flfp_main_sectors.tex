@@ -1,0 +1,24 @@
+{
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\begin{tabular}{l*{6}{c}}
+\hline\hline
+            &\multicolumn{1}{c}{(1)}         &\multicolumn{1}{c}{(2)}         &\multicolumn{1}{c}{(3)}         &\multicolumn{1}{c}{(4)}         &\multicolumn{1}{c}{(5)}         &\multicolumn{1}{c}{(6)}         \\
+            &Female % of Manufacturing LF         &Ln(Male employed)         &Ln(Female employed)         &Female % of Services LF         &Ln(Male employed)         &Ln(Female employed)         \\
+\hline
+1[10th-Plan district] x 1[1991]&      -0.005         &      -0.013         &      -0.024         &       0.004         &       0.007         &       0.055         \\
+            &     (0.009)         &     (0.043)         &     (0.054)         &     (0.005)         &     (0.028)         &     (0.042)         \\
+[1em]
+1[10th-Plan district] x 1[2011]&       0.000         &       0.254         &       0.223         &       0.011\sym{**} &       0.180         &       0.231\sym{*}  \\
+            &     (0.010)         &     (0.158)         &     (0.143)         &     (0.006)         &     (0.124)         &     (0.118)         \\
+[1em]
+pc\_m        &                     &       0.000\sym{***}&       0.000\sym{***}&                     &       0.000\sym{***}&                     \\
+            &                     &     (0.000)         &     (0.000)         &                     &     (0.000)         &                     \\
+[1em]
+pc\_f        &                     &                     &                     &                     &                     &       0.000\sym{***}\\
+            &                     &                     &                     &                     &                     &     (0.000)         \\
+\hline
+\(N\)       &      990053         &     1410972         &     1410972         &     1368214         &     1410972         &     1410972         \\
+Mean of dep var&        0.22         &        1.22         &        0.64         &        0.26         &        2.49         &        1.55         \\
+\hline\hline
+\end{tabular}
+}
