@@ -62,7 +62,7 @@ do $code/flfp_main_robust_timing.do
 /* table a.2.: village FE */
 do $code/flfp_main_village_fe.do
 
-/* table a.3: q-values */
+/* table a.3, a.9, a.18, a.20: q-values */
 do $code/qvalues.do
 
 /* table a.4: interacted w baseline covariates */
@@ -85,3 +85,5 @@ do $code/india_mechanisms.do
 
 /* figure a.7 */
 do $code/india_mechanisms_ed.do
+
+/*  */
