@@ -1,0 +1,1272 @@
+----------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  /n/home00/abhowmick/paper_elec_norms_repl/exhibits/caste_pretre
+> nds.txt
+  log type:  text
+ opened on:  15 Jul 2026, 05:24:26
+
+.  
+. /*********/
+. /* SC/ST */
+. /*********/
+. 
+. 
+. reghdfe pc_mainwork_fshare treat_post scst scst_post elec_scst [pw = pc_to
+> t_p], ///
+> absorb(district period state_trend dec_trend quart_trend) cluster(district
+> ) 
+(dropped 1 singleton observations)
+(MWFE estimator converged in 13 iterations)
+note: scst is probably collinear with the fixed effects (all partialled-out 
+> values are close to zero; tol = 1.0e-09)
+
+HDFE Linear regression                            Number of obs   =  1,076,9
+> 10
+Absorbing 5 HDFE groups                           F(   3,    609) =       1.
+> 62
+Statistics robust to heteroskedasticity           Prob > F        =     0.18
+> 43
+                                                  R-squared       =     0.49
+> 30
+                                                  Adj R-squared   =     0.49
+> 26
+                                                  Within R-sq.    =     0.00
+> 02
+Number of clusters (district) =        610        Root MSE        =     0.11
+> 23
+
+                             (Std. err. adjusted for 610 clusters in distric
+> t)
+----------------------------------------------------------------------------
+> --
+             |               Robust
+pc_mainwor~e | Coefficient  std. err.      t    P>|t|     [95% conf. interva
+> l]
+-------------+--------------------------------------------------------------
+> --
+  treat_post |   -.009787    .004597    -2.13   0.034    -.0188149   -.00075
+> 91
+        scst |          0  (omitted)
+   scst_post |  -.0096012   .0100338    -0.96   0.339    -.0293062    .01010
+> 38
+   elec_scst |   .0166261   .0157095     1.06   0.290    -.0142254    .04747
+> 75
+       _cons |   .2153861   .0012068   178.48   0.000     .2130162    .21775
+> 61
+----------------------------------------------------------------------------
+> --
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+    district |       610         610           0    *|
+      period |         2           1           1     |
+ state_trend |        53           2          51     |
+   dec_trend |        20           2          18    ?|
+ quart_trend |         8           2           6    ?|
+-----------------------------------------------------+
+? = number of redundant parameters may be higher
+* = FE nested within cluster; treated as redundant for DoF computation
+
+. sum pc_mainwork_fshare if e(sample) == 1 & treat == 0 & post == 1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+pc_mainwor~e |    276,152    .2500275    .1759426          0          1
+
+. local mean = `r(mean)'
+
+. local cm: di %9.2f `mean' 
+
+. estadd local cm "`cm'"
+
+added macro:
+                 e(cm) : "     0.25"
+
+. estimates store m1
+
+. 
+. reghdfe pc_main_al_fshare treat_post scst scst_post elec_scst [pw = pc_tot
+> _p], ///
+> absorb(district period state_trend dec_trend quart_trend) cluster(district
+> ) 
+(dropped 2 singleton observations)
+(MWFE estimator converged in 13 iterations)
+note: scst is probably collinear with the fixed effects (all partialled-out 
+> values are close to zero; tol = 1.0e-09)
+
+HDFE Linear regression                            Number of obs   =    911,7
+> 72
+Absorbing 5 HDFE groups                           F(   3,    608) =       1.
+> 25
+Statistics robust to heteroskedasticity           Prob > F        =     0.29
+> 09
+                                                  R-squared       =     0.46
+> 63
+                                                  Adj R-squared   =     0.46
+> 59
+                                                  Within R-sq.    =     0.00
+> 01
+Number of clusters (district) =        609        Root MSE        =     0.16
+> 40
+
+                             (Std. err. adjusted for 609 clusters in distric
+> t)
+----------------------------------------------------------------------------
+> --
+             |               Robust
+pc_main_al~e | Coefficient  std. err.      t    P>|t|     [95% conf. interva
+> l]
+-------------+--------------------------------------------------------------
+> --
+  treat_post |  -.0107203   .0057921    -1.85   0.065    -.0220953    .00065
+> 47
+        scst |          0  (omitted)
+   scst_post |  -.0113458   .0119473    -0.95   0.343    -.0348087    .01211
+> 71
+   elec_scst |   .0233422   .0201309     1.16   0.247    -.0161924    .06287
+> 68
+       _cons |   .2970196   .0014658   202.63   0.000     .2941409    .29989
+> 83
+----------------------------------------------------------------------------
+> --
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+    district |       609         609           0    *|
+      period |         2           1           1     |
+ state_trend |        53           2          51     |
+   dec_trend |        20           2          18    ?|
+ quart_trend |         8           2           6    ?|
+-----------------------------------------------------+
+? = number of redundant parameters may be higher
+* = FE nested within cluster; treated as redundant for DoF computation
+
+. sum pc_main_al_fshare if e(sample) == 1 & treat == 0 & post == 1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+pc_main_al~e |    231,752    .3063442    .2481123          0          1
+
+. local mean = `r(mean)'
+
+. local cm: di %9.2f `mean' 
+
+. estadd local cm "`cm'"
+
+added macro:
+                 e(cm) : "     0.31"
+
+. estimates store m2
+
+. 
+. reghdfe pc_main_cl_fshare treat_post scst scst_post elec_scst [pw = pc_tot
+> _p], ///
+> absorb(district period state_trend dec_trend quart_trend) cluster(district
+> ) 
+(dropped 1 singleton observations)
+(MWFE estimator converged in 13 iterations)
+note: scst is probably collinear with the fixed effects (all partialled-out 
+> values are close to zero; tol = 1.0e-09)
+
+HDFE Linear regression                            Number of obs   =  1,057,8
+> 52
+Absorbing 5 HDFE groups                           F(   3,    609) =       0.
+> 89
+Statistics robust to heteroskedasticity           Prob > F        =     0.44
+> 40
+                                                  R-squared       =     0.46
+> 34
+                                                  Adj R-squared   =     0.46
+> 30
+                                                  Within R-sq.    =     0.00
+> 02
+Number of clusters (district) =        610        Root MSE        =     0.12
+> 34
+
+                             (Std. err. adjusted for 610 clusters in distric
+> t)
+----------------------------------------------------------------------------
+> --
+             |               Robust
+pc_main_cl~e | Coefficient  std. err.      t    P>|t|     [95% conf. interva
+> l]
+-------------+--------------------------------------------------------------
+> --
+  treat_post |  -.0111434    .007825    -1.42   0.155    -.0265107    .00422
+> 39
+        scst |          0  (omitted)
+   scst_post |  -.0021151   .0149076    -0.14   0.887    -.0313916    .02716
+> 14
+   elec_scst |   .0053595   .0169104     0.32   0.751    -.0278503    .03856
+> 93
+       _cons |   .1663288   .0024518    67.84   0.000     .1615138    .17114
+> 37
+----------------------------------------------------------------------------
+> --
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+    district |       610         610           0    *|
+      period |         2           1           1     |
+ state_trend |        53           2          51     |
+   dec_trend |        20           2          18    ?|
+ quart_trend |         8           2           6    ?|
+-----------------------------------------------------+
+? = number of redundant parameters may be higher
+* = FE nested within cluster; treated as redundant for DoF computation
+
+. sum pc_main_cl_fshare if e(sample) == 1 & treat == 0 & post == 1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+pc_main_cl~e |    269,875    .2179179    .2042439          0          1
+
+. local mean = `r(mean)'
+
+. local cm: di %9.2f `mean' 
+
+. estadd local cm "`cm'"
+
+added macro:
+                 e(cm) : "     0.22"
+
+. estimates store m3
+
+. 
+. reghdfe pc_main_ot_fshare treat_post scst scst_post elec_scst [pw = pc_tot
+> _p], ///
+> absorb(district period state_trend dec_trend quart_trend) cluster(district
+> ) 
+(dropped 1 singleton observations)
+(MWFE estimator converged in 13 iterations)
+note: scst is probably collinear with the fixed effects (all partialled-out 
+> values are close to zero; tol = 1.0e-09)
+
+HDFE Linear regression                            Number of obs   =    954,7
+> 72
+Absorbing 5 HDFE groups                           F(   3,    609) =       0.
+> 82
+Statistics robust to heteroskedasticity           Prob > F        =     0.48
+> 56
+                                                  R-squared       =     0.25
+> 18
+                                                  Adj R-squared   =     0.25
+> 12
+                                                  Within R-sq.    =     0.00
+> 01
+Number of clusters (district) =        610        Root MSE        =     0.12
+> 28
+
+                             (Std. err. adjusted for 610 clusters in distric
+> t)
+----------------------------------------------------------------------------
+> --
+             |               Robust
+pc_main_ot~e | Coefficient  std. err.      t    P>|t|     [95% conf. interva
+> l]
+-------------+--------------------------------------------------------------
+> --
+  treat_post |   .0090676   .0059886     1.51   0.131    -.0026933    .02082
+> 84
+        scst |          0  (omitted)
+   scst_post |   .0076434   .0189432     0.40   0.687    -.0295585    .04484
+> 53
+   elec_scst |  -.0149039   .0237521    -0.63   0.531      -.06155    .03174
+> 21
+       _cons |   .1405701   .0019753    71.16   0.000     .1366908    .14444
+> 94
+----------------------------------------------------------------------------
+> --
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+    district |       610         610           0    *|
+      period |         2           1           1     |
+ state_trend |        53           2          51     |
+   dec_trend |        20           2          18    ?|
+ quart_trend |         8           2           6    ?|
+-----------------------------------------------------+
+? = number of redundant parameters may be higher
+* = FE nested within cluster; treated as redundant for DoF computation
+
+. sum pc_main_ot_fshare if e(sample) == 1 & treat == 0 & post == 1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+pc_main_ot~e |    258,433    .1744078     .181041          0          1
+
+. local mean = `r(mean)'
+
+. local cm: di %9.2f `mean' 
+
+. estadd local cm "`cm'"
+
+added macro:
+                 e(cm) : "     0.17"
+
+. estimates store m4
+
+. 
+. reghdfe pc_main_hh_fshare treat_post scst scst_post elec_scst [pw = pc_tot
+> _p], ///
+> absorb(district period state_trend dec_trend quart_trend) cluster(district
+> ) 
+(dropped 2 singleton observations)
+(MWFE estimator converged in 13 iterations)
+note: scst is probably collinear with the fixed effects (all partialled-out 
+> values are close to zero; tol = 1.0e-09)
+
+HDFE Linear regression                            Number of obs   =    580,4
+> 29
+Absorbing 5 HDFE groups                           F(   3,    608) =       4.
+> 13
+Statistics robust to heteroskedasticity           Prob > F        =     0.00
+> 65
+                                                  R-squared       =     0.19
+> 14
+                                                  Adj R-squared   =     0.19
+> 05
+                                                  Within R-sq.    =     0.00
+> 03
+Number of clusters (district) =        609        Root MSE        =     0.22
+> 74
+
+                             (Std. err. adjusted for 609 clusters in distric
+> t)
+----------------------------------------------------------------------------
+> --
+             |               Robust
+pc_main_hh~e | Coefficient  std. err.      t    P>|t|     [95% conf. interva
+> l]
+-------------+--------------------------------------------------------------
+> --
+  treat_post |  -.0008708   .0076268    -0.11   0.909    -.0158489    .01410
+> 72
+        scst |          0  (omitted)
+   scst_post |   .0401503   .0159179     2.52   0.012     .0088896     .0714
+> 11
+   elec_scst |   .0063737   .0239269     0.27   0.790    -.0406156    .05336
+> 31
+       _cons |   .2405298   .0024114    99.75   0.000     .2357941    .24526
+> 55
+----------------------------------------------------------------------------
+> --
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+    district |       609         609           0    *|
+      period |         2           1           1     |
+ state_trend |        53           2          51     |
+   dec_trend |        20           2          18    ?|
+ quart_trend |         8           2           6    ?|
+-----------------------------------------------------+
+? = number of redundant parameters may be higher
+* = FE nested within cluster; treated as redundant for DoF computation
+
+. sum pc_main_hh_fshare if e(sample) == 1 & treat == 0 & post == 1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+pc_main_hh~e |    172,746    .2756753    .3030912          0          1
+
+. local mean = `r(mean)'
+
+. local cm: di %9.2f `mean' 
+
+. estadd local cm "`cm'"
+
+added macro:
+                 e(cm) : "     0.28"
+
+. estimates store m5
+
+. 
+. reghdfe ec_share_count_own_f treat_post scst scst_post elec_scst [pw = pc_
+> tot_p], ///
+> absorb(district period state_trend dec_trend quart_trend) cluster(district
+> ) 
+(dropped 1 singleton observations)
+(MWFE estimator converged in 13 iterations)
+note: scst is probably collinear with the fixed effects (all partialled-out 
+> values are close to zero; tol = 1.0e-09)
+
+HDFE Linear regression                            Number of obs   =    893,7
+> 89
+Absorbing 5 HDFE groups                           F(   3,    609) =       0.
+> 12
+Statistics robust to heteroskedasticity           Prob > F        =     0.94
+> 96
+                                                  R-squared       =     0.20
+> 57
+                                                  Adj R-squared   =     0.20
+> 50
+                                                  Within R-sq.    =     0.00
+> 00
+Number of clusters (district) =        610        Root MSE        =     0.07
+> 29
+
+                             (Std. err. adjusted for 610 clusters in distric
+> t)
+----------------------------------------------------------------------------
+> --
+             |               Robust
+ec_s~t_own_f | Coefficient  std. err.      t    P>|t|     [95% conf. interva
+> l]
+-------------+--------------------------------------------------------------
+> --
+  treat_post |   .0007988   .0025579     0.31   0.755    -.0042246    .00582
+> 22
+        scst |          0  (omitted)
+   scst_post |  -.0021491   .0048143    -0.45   0.655    -.0116038    .00730
+> 56
+   elec_scst |  -.0008178   .0118078    -0.07   0.945    -.0240067     .0223
+> 71
+       _cons |   .0325816    .000699    46.61   0.000     .0312089    .03395
+> 42
+----------------------------------------------------------------------------
+> --
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+    district |       610         610           0    *|
+      period |         2           1           1     |
+ state_trend |        51           2          49     |
+   dec_trend |        20           2          18    ?|
+ quart_trend |         8           2           6    ?|
+-----------------------------------------------------+
+? = number of redundant parameters may be higher
+* = FE nested within cluster; treated as redundant for DoF computation
+
+. sum ec_share_count_own_f if e(sample) == 1 & treat == 0 & post == 1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ec_s~t_own_f |    243,812    .0267046    .0744908          0   .4861125
+
+. local mean = `r(mean)'
+
+. local cm: di %9.2f `mean' 
+
+. estadd local cm "`cm'"
+
+added macro:
+                 e(cm) : "     0.03"
+
+. estimates store m6
+
+. 
+. reghdfe ec_share_count_f treat_post scst scst_post elec_scst [pw = pc_tot_
+> p], ///
+> absorb(district period state_trend dec_trend quart_trend) cluster(district
+> ) 
+(dropped 1 singleton observations)
+(MWFE estimator converged in 13 iterations)
+note: scst is probably collinear with the fixed effects (all partialled-out 
+> values are close to zero; tol = 1.0e-09)
+
+HDFE Linear regression                            Number of obs   =    893,7
+> 89
+Absorbing 5 HDFE groups                           F(   3,    609) =       0.
+> 45
+Statistics robust to heteroskedasticity           Prob > F        =     0.71
+> 58
+                                                  R-squared       =     0.23
+> 27
+                                                  Adj R-squared   =     0.23
+> 21
+                                                  Within R-sq.    =     0.00
+> 01
+Number of clusters (district) =        610        Root MSE        =     0.20
+> 30
+
+                             (Std. err. adjusted for 610 clusters in distric
+> t)
+----------------------------------------------------------------------------
+> --
+             |               Robust
+ec_share~t_f | Coefficient  std. err.      t    P>|t|     [95% conf. interva
+> l]
+-------------+--------------------------------------------------------------
+> --
+  treat_post |  -.0090186   .0091879    -0.98   0.327    -.0270624    .00902
+> 52
+        scst |          0  (omitted)
+   scst_post |  -.0100464   .0190411    -0.53   0.598    -.0474406    .02734
+> 77
+   elec_scst |   .0293216   .0293328     1.00   0.318    -.0282842    .08692
+> 74
+       _cons |    .230411   .0025477    90.44   0.000     .2254077    .23541
+> 42
+----------------------------------------------------------------------------
+> --
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+    district |       610         610           0    *|
+      period |         2           1           1     |
+ state_trend |        51           2          49     |
+   dec_trend |        20           2          18    ?|
+ quart_trend |         8           2           6    ?|
+-----------------------------------------------------+
+? = number of redundant parameters may be higher
+* = FE nested within cluster; treated as redundant for DoF computation
+
+. sum ec_share_count_f if e(sample) == 1 & treat == 0 & post == 1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ec_share~t_f |    243,812    .2660791    .2707735          0          1
+
+. local mean = `r(mean)'
+
+. local cm: di %9.2f `mean' 
+
+. estadd local cm "`cm'"
+
+added macro:
+                 e(cm) : "     0.27"
+
+. estimates store m7
+
+. 
+. reghdfe ec_share_emp_f treat_post scst scst_post elec_scst [pw = pc_tot_p]
+> , ///
+> absorb(district period state_trend dec_trend quart_trend) cluster(district
+> ) 
+(dropped 1 singleton observations)
+(MWFE estimator converged in 13 iterations)
+note: scst is probably collinear with the fixed effects (all partialled-out 
+> values are close to zero; tol = 1.0e-09)
+
+HDFE Linear regression                            Number of obs   =    893,7
+> 89
+Absorbing 5 HDFE groups                           F(   3,    609) =       0.
+> 33
+Statistics robust to heteroskedasticity           Prob > F        =     0.80
+> 12
+                                                  R-squared       =     0.29
+> 89
+                                                  Adj R-squared   =     0.29
+> 84
+                                                  Within R-sq.    =     0.00
+> 01
+Number of clusters (district) =        610        Root MSE        =     0.12
+> 91
+
+                             (Std. err. adjusted for 610 clusters in distric
+> t)
+----------------------------------------------------------------------------
+> --
+             |               Robust
+ec_share~p_f | Coefficient  std. err.      t    P>|t|     [95% conf. interva
+> l]
+-------------+--------------------------------------------------------------
+> --
+  treat_post |  -.0036417   .0060208    -0.60   0.546    -.0154658    .00818
+> 25
+        scst |          0  (omitted)
+   scst_post |    .001038   .0131333     0.08   0.937    -.0247541    .02683
+> 01
+   elec_scst |   .0136257    .019761     0.69   0.491    -.0251822    .05243
+> 37
+       _cons |   .1706192    .001614   105.72   0.000     .1674496    .17378
+> 88
+----------------------------------------------------------------------------
+> --
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+    district |       610         610           0    *|
+      period |         2           1           1     |
+ state_trend |        51           2          49     |
+   dec_trend |        20           2          18    ?|
+ quart_trend |         8           2           6    ?|
+-----------------------------------------------------+
+? = number of redundant parameters may be higher
+* = FE nested within cluster; treated as redundant for DoF computation
+
+. sum ec_share_emp_f if e(sample) == 1 & treat == 0 & post == 1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ec_share~p_f |    243,812    .2029071    .1844766          0   .8128166
+
+. local mean = `r(mean)'
+
+. local cm: di %9.2f `mean' 
+
+. estadd local cm "`cm'"
+
+added macro:
+                 e(cm) : "     0.20"
+
+. estimates store m8
+
+. 
+. esttab m1 m2 m3 m4 m5 m8 m6 m7 using ///
+> $out/flfp_scst_village_pt.csv, keep(elec_scst) ///
+> mlabel("Main workers" ///
+> "Ag labor" "Cultivators" ///
+> "Other" "Household" "Non-farm" "Firm owners" "Firms employ women") ///
+> coeflabel(treat_post "1[10th-Plan district] x 1[2011]" ///
+> scst "SC-ST share" scst_post "SC-ST share x 1[2011]" ///
+> elec_scst "SC-ST share x 1[2011] x 1[10th-Plan district]") ///
+> scalar("cm Mean of dep var" ) ///
+> star(* 0.10 ** 0.05 *** 0.01) b(3) nonotes se(3) replace
+(file
+    /n/home00/abhowmick/paper_elec_norms_repl/exhibits/flfp_scst_village_p
+    > t.csv not found)
+(output written to ~/paper_elec_norms_repl/exhibits/flfp_scst_village_pt.csv
+> )
+
+. 
+. /******/
+. /* UC */
+. /******/
+. 
+. 
+. reghdfe pc_mainwork_fshare treat_post uc uc_post elec_uc [pw = pc_tot_p], 
+> ///
+> absorb(district period state_trend dec_trend quart_trend) cluster(district
+> ) 
+(dropped 1 singleton observations)
+(MWFE estimator converged in 13 iterations)
+note: uc is probably collinear with the fixed effects (all partialled-out va
+> lues are close to zero; tol = 1.0e-09)
+
+HDFE Linear regression                            Number of obs   =  1,076,9
+> 10
+Absorbing 5 HDFE groups                           F(   3,    609) =       2.
+> 29
+Statistics robust to heteroskedasticity           Prob > F        =     0.07
+> 68
+                                                  R-squared       =     0.49
+> 30
+                                                  Adj R-squared   =     0.49
+> 27
+                                                  Within R-sq.    =     0.00
+> 02
+Number of clusters (district) =        610        Root MSE        =     0.11
+> 23
+
+                             (Std. err. adjusted for 610 clusters in distric
+> t)
+----------------------------------------------------------------------------
+> --
+             |               Robust
+pc_mainwor~e | Coefficient  std. err.      t    P>|t|     [95% conf. interva
+> l]
+-------------+--------------------------------------------------------------
+> --
+  treat_post |  -.0065763   .0041301    -1.59   0.112    -.0146873    .00153
+> 46
+          uc |          0  (omitted)
+     uc_post |   .0230746   .0143906     1.60   0.109    -.0051867    .05133
+> 59
+     elec_uc |  -.0125973   .0249484    -0.50   0.614    -.0615927    .03639
+> 82
+       _cons |   .2137139    .001125   189.97   0.000     .2115046    .21592
+> 32
+----------------------------------------------------------------------------
+> --
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+    district |       610         610           0    *|
+      period |         2           1           1     |
+ state_trend |        53           2          51     |
+   dec_trend |        20           2          18    ?|
+ quart_trend |         8           2           6    ?|
+-----------------------------------------------------+
+? = number of redundant parameters may be higher
+* = FE nested within cluster; treated as redundant for DoF computation
+
+. sum pc_mainwork_fshare if e(sample) == 1 & treat == 0 & post == 1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+pc_mainwor~e |    276,152    .2500275    .1759426          0          1
+
+. local mean = `r(mean)'
+
+. local cm: di %9.2f `mean' 
+
+. estadd local cm "`cm'"
+
+added macro:
+                 e(cm) : "     0.25"
+
+. estimates store m1
+
+. 
+. reghdfe pc_main_al_fshare treat_post uc uc_post elec_uc [pw = pc_tot_p], /
+> //
+> absorb(district period state_trend dec_trend quart_trend) cluster(district
+> ) 
+(dropped 2 singleton observations)
+(MWFE estimator converged in 13 iterations)
+note: uc is probably collinear with the fixed effects (all partialled-out va
+> lues are close to zero; tol = 1.0e-09)
+
+HDFE Linear regression                            Number of obs   =    911,7
+> 72
+Absorbing 5 HDFE groups                           F(   3,    608) =       1.
+> 95
+Statistics robust to heteroskedasticity           Prob > F        =     0.11
+> 96
+                                                  R-squared       =     0.46
+> 63
+                                                  Adj R-squared   =     0.46
+> 59
+                                                  Within R-sq.    =     0.00
+> 01
+Number of clusters (district) =        609        Root MSE        =     0.16
+> 40
+
+                             (Std. err. adjusted for 609 clusters in distric
+> t)
+----------------------------------------------------------------------------
+> --
+             |               Robust
+pc_main_al~e | Coefficient  std. err.      t    P>|t|     [95% conf. interva
+> l]
+-------------+--------------------------------------------------------------
+> --
+  treat_post |  -.0062491   .0053555    -1.17   0.244    -.0167666    .00426
+> 84
+          uc |          0  (omitted)
+     uc_post |   .0250899   .0140299     1.79   0.074    -.0024631    .05264
+> 29
+     elec_uc |  -.0148813   .0288146    -0.52   0.606    -.0714694    .04170
+> 69
+       _cons |   .2951225   .0013619   216.70   0.000     .2924479    .29779
+> 72
+----------------------------------------------------------------------------
+> --
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+    district |       609         609           0    *|
+      period |         2           1           1     |
+ state_trend |        53           2          51     |
+   dec_trend |        20           2          18    ?|
+ quart_trend |         8           2           6    ?|
+-----------------------------------------------------+
+? = number of redundant parameters may be higher
+* = FE nested within cluster; treated as redundant for DoF computation
+
+. sum pc_main_al_fshare if e(sample) == 1 & treat == 0 & post == 1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+pc_main_al~e |    231,752    .3063442    .2481123          0          1
+
+. local mean = `r(mean)'
+
+. local cm: di %9.2f `mean' 
+
+. estadd local cm "`cm'"
+
+added macro:
+                 e(cm) : "     0.31"
+
+. estimates store m2
+
+. 
+. reghdfe pc_main_cl_fshare treat_post uc uc_post elec_uc [pw = pc_tot_p], /
+> //
+> absorb(district period state_trend dec_trend quart_trend) cluster(district
+> ) 
+(dropped 1 singleton observations)
+(MWFE estimator converged in 13 iterations)
+note: uc is probably collinear with the fixed effects (all partialled-out va
+> lues are close to zero; tol = 1.0e-09)
+
+HDFE Linear regression                            Number of obs   =  1,057,8
+> 52
+Absorbing 5 HDFE groups                           F(   3,    609) =       2.
+> 62
+Statistics robust to heteroskedasticity           Prob > F        =     0.05
+> 03
+                                                  R-squared       =     0.46
+> 34
+                                                  Adj R-squared   =     0.46
+> 31
+                                                  Within R-sq.    =     0.00
+> 04
+Number of clusters (district) =        610        Root MSE        =     0.12
+> 33
+
+                             (Std. err. adjusted for 610 clusters in distric
+> t)
+----------------------------------------------------------------------------
+> --
+             |               Robust
+pc_main_cl~e | Coefficient  std. err.      t    P>|t|     [95% conf. interva
+> l]
+-------------+--------------------------------------------------------------
+> --
+  treat_post |  -.0109945   .0078094    -1.41   0.160    -.0263311    .00434
+> 21
+          uc |          0  (omitted)
+     uc_post |   .0214659   .0166283     1.29   0.197    -.0111899    .05412
+> 18
+     elec_uc |   .0023249   .0279655     0.08   0.934    -.0525956    .05724
+> 55
+       _cons |   .1653185   .0021377    77.33   0.000     .1611203    .16951
+> 67
+----------------------------------------------------------------------------
+> --
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+    district |       610         610           0    *|
+      period |         2           1           1     |
+ state_trend |        53           2          51     |
+   dec_trend |        20           2          18    ?|
+ quart_trend |         8           2           6    ?|
+-----------------------------------------------------+
+? = number of redundant parameters may be higher
+* = FE nested within cluster; treated as redundant for DoF computation
+
+. sum pc_main_cl_fshare if e(sample) == 1 & treat == 0 & post == 1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+pc_main_cl~e |    269,875    .2179179    .2042439          0          1
+
+. local mean = `r(mean)'
+
+. local cm: di %9.2f `mean' 
+
+. estadd local cm "`cm'"
+
+added macro:
+                 e(cm) : "     0.22"
+
+. estimates store m3
+
+. 
+. reghdfe pc_main_ot_fshare treat_post uc uc_post elec_uc [pw = pc_tot_p], /
+> //
+> absorb(district period state_trend dec_trend quart_trend) cluster(district
+> ) 
+(dropped 1 singleton observations)
+(MWFE estimator converged in 13 iterations)
+note: uc is probably collinear with the fixed effects (all partialled-out va
+> lues are close to zero; tol = 1.0e-09)
+
+HDFE Linear regression                            Number of obs   =    954,7
+> 72
+Absorbing 5 HDFE groups                           F(   3,    609) =       1.
+> 54
+Statistics robust to heteroskedasticity           Prob > F        =     0.20
+> 23
+                                                  R-squared       =     0.25
+> 22
+                                                  Adj R-squared   =     0.25
+> 16
+                                                  Within R-sq.    =     0.00
+> 07
+Number of clusters (district) =        610        Root MSE        =     0.12
+> 27
+
+                             (Std. err. adjusted for 610 clusters in distric
+> t)
+----------------------------------------------------------------------------
+> --
+             |               Robust
+pc_main_ot~e | Coefficient  std. err.      t    P>|t|     [95% conf. interva
+> l]
+-------------+--------------------------------------------------------------
+> --
+  treat_post |   .0103084   .0056709     1.82   0.070    -.0008285    .02144
+> 52
+          uc |          0  (omitted)
+     uc_post |   .0588473    .034536     1.70   0.089    -.0089769    .12667
+> 14
+     elec_uc |  -.0528725    .039406    -1.34   0.180    -.1302608    .02451
+> 57
+       _cons |    .138744   .0019297    71.90   0.000     .1349543    .14253
+> 38
+----------------------------------------------------------------------------
+> --
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+    district |       610         610           0    *|
+      period |         2           1           1     |
+ state_trend |        53           2          51     |
+   dec_trend |        20           2          18    ?|
+ quart_trend |         8           2           6    ?|
+-----------------------------------------------------+
+? = number of redundant parameters may be higher
+* = FE nested within cluster; treated as redundant for DoF computation
+
+. sum pc_main_ot_fshare if e(sample) == 1 & treat == 0 & post == 1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+pc_main_ot~e |    258,433    .1744078     .181041          0          1
+
+. local mean = `r(mean)'
+
+. local cm: di %9.2f `mean' 
+
+. estadd local cm "`cm'"
+
+added macro:
+                 e(cm) : "     0.17"
+
+. estimates store m4
+
+. 
+. reghdfe pc_main_hh_fshare treat_post uc uc_post elec_uc [pw = pc_tot_p], /
+> //
+> absorb(district period state_trend dec_trend quart_trend) cluster(district
+> ) 
+(dropped 2 singleton observations)
+(MWFE estimator converged in 13 iterations)
+note: uc is probably collinear with the fixed effects (all partialled-out va
+> lues are close to zero; tol = 1.0e-09)
+
+HDFE Linear regression                            Number of obs   =    580,4
+> 29
+Absorbing 5 HDFE groups                           F(   3,    608) =       2.
+> 06
+Statistics robust to heteroskedasticity           Prob > F        =     0.10
+> 47
+                                                  R-squared       =     0.19
+> 13
+                                                  Adj R-squared   =     0.19
+> 04
+                                                  Within R-sq.    =     0.00
+> 01
+Number of clusters (district) =        609        Root MSE        =     0.22
+> 75
+
+                             (Std. err. adjusted for 609 clusters in distric
+> t)
+----------------------------------------------------------------------------
+> --
+             |               Robust
+pc_main_hh~e | Coefficient  std. err.      t    P>|t|     [95% conf. interva
+> l]
+-------------+--------------------------------------------------------------
+> --
+  treat_post |   -.001474   .0078455    -0.19   0.851    -.0168815    .01393
+> 36
+          uc |          0  (omitted)
+     uc_post |   .0336449   .0221901     1.52   0.130    -.0099336    .07722
+> 35
+     elec_uc |   .0199307   .0343861     0.58   0.562    -.0475992    .08746
+> 06
+       _cons |   .2422039   .0023065   105.01   0.000     .2376743    .24673
+> 36
+----------------------------------------------------------------------------
+> --
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+    district |       609         609           0    *|
+      period |         2           1           1     |
+ state_trend |        53           2          51     |
+   dec_trend |        20           2          18    ?|
+ quart_trend |         8           2           6    ?|
+-----------------------------------------------------+
+? = number of redundant parameters may be higher
+* = FE nested within cluster; treated as redundant for DoF computation
+
+. sum pc_main_hh_fshare if e(sample) == 1 & treat == 0 & post == 1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+pc_main_hh~e |    172,746    .2756753    .3030912          0          1
+
+. local mean = `r(mean)'
+
+. local cm: di %9.2f `mean' 
+
+. estadd local cm "`cm'"
+
+added macro:
+                 e(cm) : "     0.28"
+
+. estimates store m5
+
+. 
+. reghdfe ec_share_count_own_f treat_post uc uc_post elec_uc [pw = pc_tot_p]
+> , ///
+> absorb(district period state_trend dec_trend quart_trend) cluster(district
+> ) 
+(dropped 1 singleton observations)
+(MWFE estimator converged in 13 iterations)
+note: uc is probably collinear with the fixed effects (all partialled-out va
+> lues are close to zero; tol = 1.0e-09)
+
+HDFE Linear regression                            Number of obs   =    893,7
+> 89
+Absorbing 5 HDFE groups                           F(   3,    609) =       0.
+> 70
+Statistics robust to heteroskedasticity           Prob > F        =     0.55
+> 37
+                                                  R-squared       =     0.20
+> 57
+                                                  Adj R-squared   =     0.20
+> 51
+                                                  Within R-sq.    =     0.00
+> 01
+Number of clusters (district) =        610        Root MSE        =     0.07
+> 29
+
+                             (Std. err. adjusted for 610 clusters in distric
+> t)
+----------------------------------------------------------------------------
+> --
+             |               Robust
+ec_s~t_own_f | Coefficient  std. err.      t    P>|t|     [95% conf. interva
+> l]
+-------------+--------------------------------------------------------------
+> --
+  treat_post |   -.000794   .0027516    -0.29   0.773    -.0061978    .00460
+> 98
+          uc |          0  (omitted)
+     uc_post |  -.0015206   .0054112    -0.28   0.779    -.0121474    .00910
+> 62
+     elec_uc |   .0151937   .0110164     1.38   0.168     -.006441    .03682
+> 84
+       _cons |   .0325114   .0007248    44.86   0.000     .0310881    .03393
+> 48
+----------------------------------------------------------------------------
+> --
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+    district |       610         610           0    *|
+      period |         2           1           1     |
+ state_trend |        51           2          49     |
+   dec_trend |        20           2          18    ?|
+ quart_trend |         8           2           6    ?|
+-----------------------------------------------------+
+? = number of redundant parameters may be higher
+* = FE nested within cluster; treated as redundant for DoF computation
+
+. sum ec_share_count_own_f if e(sample) == 1 & treat == 0 & post == 1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ec_s~t_own_f |    243,812    .0267046    .0744908          0   .4861125
+
+. local mean = `r(mean)'
+
+. local cm: di %9.2f `mean' 
+
+. estadd local cm "`cm'"
+
+added macro:
+                 e(cm) : "     0.03"
+
+. estimates store m6
+
+. 
+. reghdfe ec_share_count_f treat_post uc uc_post elec_uc [pw = pc_tot_p], //
+> /
+> absorb(district period state_trend dec_trend quart_trend) cluster(district
+> ) 
+(dropped 1 singleton observations)
+(MWFE estimator converged in 13 iterations)
+note: uc is probably collinear with the fixed effects (all partialled-out va
+> lues are close to zero; tol = 1.0e-09)
+
+HDFE Linear regression                            Number of obs   =    893,7
+> 89
+Absorbing 5 HDFE groups                           F(   3,    609) =       0.
+> 37
+Statistics robust to heteroskedasticity           Prob > F        =     0.77
+> 73
+                                                  R-squared       =     0.23
+> 27
+                                                  Adj R-squared   =     0.23
+> 21
+                                                  Within R-sq.    =     0.00
+> 01
+Number of clusters (district) =        610        Root MSE        =     0.20
+> 30
+
+                             (Std. err. adjusted for 610 clusters in distric
+> t)
+----------------------------------------------------------------------------
+> --
+             |               Robust
+ec_share~t_f | Coefficient  std. err.      t    P>|t|     [95% conf. interva
+> l]
+-------------+--------------------------------------------------------------
+> --
+  treat_post |  -.0071401   .0087896    -0.81   0.417    -.0244017    .01012
+> 15
+          uc |          0  (omitted)
+     uc_post |   .0030911   .0197361     0.16   0.876    -.0356679    .04185
+> 01
+     elec_uc |   .0305524   .0427217     0.72   0.475    -.0533474    .11445
+> 23
+       _cons |   .2294281    .002397    95.71   0.000     .2247207    .23413
+> 55
+----------------------------------------------------------------------------
+> --
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+    district |       610         610           0    *|
+      period |         2           1           1     |
+ state_trend |        51           2          49     |
+   dec_trend |        20           2          18    ?|
+ quart_trend |         8           2           6    ?|
+-----------------------------------------------------+
+? = number of redundant parameters may be higher
+* = FE nested within cluster; treated as redundant for DoF computation
+
+. sum ec_share_count_f if e(sample) == 1 & treat == 0 & post == 1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ec_share~t_f |    243,812    .2660791    .2707735          0          1
+
+. local mean = `r(mean)'
+
+. local cm: di %9.2f `mean' 
+
+. estadd local cm "`cm'"
+
+added macro:
+                 e(cm) : "     0.27"
+
+. estimates store m7
+
+. 
+. reghdfe ec_share_emp_f treat_post uc uc_post elec_uc [pw = pc_tot_p], ///
+> absorb(district period state_trend dec_trend quart_trend) cluster(district
+> ) 
+(dropped 1 singleton observations)
+(MWFE estimator converged in 13 iterations)
+note: uc is probably collinear with the fixed effects (all partialled-out va
+> lues are close to zero; tol = 1.0e-09)
+
+HDFE Linear regression                            Number of obs   =    893,7
+> 89
+Absorbing 5 HDFE groups                           F(   3,    609) =       0.
+> 43
+Statistics robust to heteroskedasticity           Prob > F        =     0.72
+> 98
+                                                  R-squared       =     0.29
+> 90
+                                                  Adj R-squared   =     0.29
+> 84
+                                                  Within R-sq.    =     0.00
+> 01
+Number of clusters (district) =        610        Root MSE        =     0.12
+> 91
+
+                             (Std. err. adjusted for 610 clusters in distric
+> t)
+----------------------------------------------------------------------------
+> --
+             |               Robust
+ec_share~p_f | Coefficient  std. err.      t    P>|t|     [95% conf. interva
+> l]
+-------------+--------------------------------------------------------------
+> --
+  treat_post |  -.0038264   .0057761    -0.66   0.508    -.0151699    .00751
+> 71
+          uc |          0  (omitted)
+     uc_post |  -.0088483   .0140997    -0.63   0.531    -.0365382    .01884
+> 17
+     elec_uc |   .0288996    .025939     1.11   0.266    -.0220412    .07984
+> 04
+       _cons |   .1710688   .0015109   113.22   0.000     .1681017     .1740
+> 36
+----------------------------------------------------------------------------
+> --
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+    district |       610         610           0    *|
+      period |         2           1           1     |
+ state_trend |        51           2          49     |
+   dec_trend |        20           2          18    ?|
+ quart_trend |         8           2           6    ?|
+-----------------------------------------------------+
+? = number of redundant parameters may be higher
+* = FE nested within cluster; treated as redundant for DoF computation
+
+. sum ec_share_emp_f if e(sample) == 1 & treat == 0 & post == 1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ec_share~p_f |    243,812    .2029071    .1844766          0   .8128166
+
+. local mean = `r(mean)'
+
+. local cm: di %9.2f `mean' 
+
+. estadd local cm "`cm'"
+
+added macro:
+                 e(cm) : "     0.20"
+
+. estimates store m8
+
+. 
+. esttab m1 m2 m3 m4 m5 m8 m6 m7 using ///
+> $out/flfp_uc_village_pt.csv, keep(elec_uc) ///
+> mlabel("Main workers" ///
+> "Ag labor" "Cultivators" ///
+> "Other" "Household" "Non-farm" "Firm owners" "Firms employ women") ///
+> coeflabel(treat_post "1[10th-Plan district] x 1[2011]" ///
+> uc "UC share" uc_post "UC share x 1[2011]" ///
+> elec_uc "UC share x 1[2011] x 1[10th-Plan district]") ///
+> scalar("cm Mean of dep var" ) ///
+> star(* 0.10 ** 0.05 *** 0.01) b(3) nonotes se(3) replace
+(file
+    /n/home00/abhowmick/paper_elec_norms_repl/exhibits/flfp_uc_village_pt.
+    > csv not found)
+(output written to ~/paper_elec_norms_repl/exhibits/flfp_uc_village_pt.csv)
+
+. log close
+      name:  <unnamed>
+       log:  /n/home00/abhowmick/paper_elec_norms_repl/exhibits/caste_pretre
+> nds.txt
+  log type:  text
+ closed on:  15 Jul 2026, 05:27:36
+----------------------------------------------------------------------------

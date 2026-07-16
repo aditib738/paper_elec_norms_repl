@@ -86,4 +86,20 @@ do $code/india_mechanisms.do
 /* figure a.7 */
 do $code/india_mechanisms_ed.do
 
-/*  */
+/* table a.10 */
+do $code/caste_analysis_robustness.do
+
+/* table a.11 */
+do $code/caste_analysis_pretrends.do
+
+/* table a.12 */
+do $code/caste_analysis_levels.do
+
+/* table a.13 and a.14 */
+do $code/caste_analysis_covars.do
+do $code/caste_analysis_vill.do
+
+/* figure a.8 */
+do $code/flfp_caste_balance.do
+
+/* figure a.9 */
