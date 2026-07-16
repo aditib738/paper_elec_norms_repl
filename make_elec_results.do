@@ -62,7 +62,7 @@ do $code/flfp_main_robust_timing.do
 /* table a.2.: village FE */
 do $code/flfp_main_village_fe.do
 
-/* table a.3, a.9, a.18, a.20: q-values */
+/* table a.3, a.9, a.17, a.19: q-values */
 do $code/qvalues.do
 
 /* table a.4: interacted w baseline covariates */
@@ -110,3 +110,17 @@ do $code/flfp_main_beat.do
 
 /* figure a.10 */
 do $code/soil_map.do
+
+/* table a.16 */
+/* control interacted spec run in main purdah do file: purdah_analysis.do */
+do $code/purdah_analysis_vill.do
+
+/* table a.18 */
+do $code/purdah_levels_analysis.do
+
+/* table a.20 */
+do $code/clay_analysis_covars.do
+do $code/clay_analysis_vill.do
+
+/* table a.21 */
+do $code/clay_levels_analysis.do

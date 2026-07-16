@@ -62,7 +62,7 @@ gen elec_uc = treat_post * uc
 
 /* merge with covars */
 ren shrid1 shrid
-merge m:1 shrid using ~/data/covars, keep(match) nogen
+merge m:1 shrid using $tmp/covars, keep(match) nogen
 
 /* create interactions */
 ren pc01_vd_* *
