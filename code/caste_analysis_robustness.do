@@ -6,9 +6,9 @@
 /* bring in dataset (created in a/flfp_ihds_vill.do) */
 use $tmp/caste_robust, clear
 
-
 /* create 75th percentile thresholds */
 foreach c in uc scst {
+sum `c', d
 gen `c'_p75 = `c' >= r(p75)
 replace `c'_p75 = . if mi(`c')
 gen `c'75_post = `c'_p75 * post
