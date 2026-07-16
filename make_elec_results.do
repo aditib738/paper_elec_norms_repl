@@ -107,3 +107,6 @@ do $code/hh_panel_analysis.do
 
 /* table a.15 */
 do $code/flfp_main_beat.do
+
+/* figure a.10 */
+do $code/soil_map.do
