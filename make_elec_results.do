@@ -118,6 +118,9 @@ do $code/purdah_analysis_vill.do
 /* table a.18 */
 do $code/purdah_levels_analysis.do
 
+/* table a.19 */
+do $code/clay_pretrends.do
+
 /* table a.20 */
 do $code/clay_analysis_covars.do
 do $code/clay_analysis_vill.do
