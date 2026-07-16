@@ -41,7 +41,7 @@ gen base_pre = base_fem_share*pre
 
 /* outcome: female share of non ag labor force */
 reghdfe ec_share_emp_f base_pre treat_base_share treat_pre  [pw = pc_tot_p], ///
-absorb(shrid2 period state_trend dec_trend quart_trend) ///
+absorb(district period state_trend dec_trend quart_trend) ///
 cluster(district)
 sum base_fem_share if e(sample) == 1 
 local mean = `r(mean)'
@@ -55,7 +55,7 @@ estimates store m1
 
 /* outcome: share of firms employing women */
 reghdfe ec_share_count_f base_pre treat_base_share treat_pre  [pw = pc_tot_p], ///
-absorb(shrid2 period state_trend dec_trend quart_trend) ///
+absorb(district period state_trend dec_trend quart_trend) ///
 cluster(district)
 sum base_fem_share if e(sample) == 1 
 local mean = `r(mean)'
