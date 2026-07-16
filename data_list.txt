@@ -12,3 +12,5 @@
 10. shrug_ec90.dta: shrug ec 1990 data for extra pretrends
 11. mechanisms_analyis.dta: analysis dataset for mechanisms figure
 12. ed_mech_analysis.dta: analysis dataset merged with dise
+13. ihds_panel.dta: underlying dataset for alternative empirical strategy
+14. ihds_beat.dta: underlying dataset for beating justification norms analysis

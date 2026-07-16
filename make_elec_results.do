@@ -103,3 +103,7 @@ do $code/caste_analysis_vill.do
 do $code/flfp_caste_balance.do
 
 /* figure a.9 */
+do $code/hh_panel_analysis.do
+
+/* table a.15 */
+do $code/flfp_main_beat.do
