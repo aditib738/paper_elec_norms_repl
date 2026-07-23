@@ -1,5 +1,5 @@
 # paper_elec_norms_repl
-Replication repository for the paper "The Power of Norms: Rural Electrification and Female Labor in India" - Aditi Bhowmick (2026)
+Replication repository for the paper "Productivity Shocks in a Social Context: Divergent Gender Effects of Rural Electrification in India" - Aditi Bhowmick (2026)
 
 # Input data
 Download the data from here: https://drive.google.com/drive/folders/11Xe5gyKTBeVlGby1q4S6sR1tqM7T-LTu?usp=sharing
