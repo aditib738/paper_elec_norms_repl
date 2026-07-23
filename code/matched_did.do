@@ -59,9 +59,6 @@ merge m:1 district using `matched_dist', keep(match) nogen
 
 *--------------------------------------------------------------*
 * 5. IDENTICAL DiD on the matched subsample.
-*    Matching substitutes for the covariate interactions, so the
-*    headline matched-DiD drops $covar_trends. (Add them back ->
-*    doubly-robust variant.)
 *--------------------------------------------------------------*
 local outcomes pc_mainwork_fshare pc_main_al_fshare pc_main_cl_fshare ///
                pc_main_ot_fshare pc_main_hh_fshare ///

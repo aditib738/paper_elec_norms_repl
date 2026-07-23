@@ -1,4 +1,3 @@
-/* replicate purdah analysis at village level */
 /* import data */
 use $tmp/ihds_dist_analysis, clear
 
