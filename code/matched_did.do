@@ -6,8 +6,7 @@
 *  Requires: ssc install psmatch2 ; ssc install reghdfe ftools
 *==============================================================*
 
-use $tmp/robustness_analysis, clear
-// file built by main_robustness.do
+use $tmp/main_analysis, clear
 
 * --- Matching covariates (2001 baseline) ---
 global match_covars t_p m_sch s_sch s_s_sch college hosp ///
@@ -59,6 +58,9 @@ merge m:1 district using `matched_dist', keep(match) nogen
 
 *--------------------------------------------------------------*
 * 5. IDENTICAL DiD on the matched subsample.
+*    Matching substitutes for the covariate interactions, so the
+*    headline matched-DiD drops $covar_trends. (Add them back ->
+*    doubly-robust variant.)
 *--------------------------------------------------------------*
 local outcomes pc_mainwork_fshare pc_main_al_fshare pc_main_cl_fshare ///
                pc_main_ot_fshare pc_main_hh_fshare ///

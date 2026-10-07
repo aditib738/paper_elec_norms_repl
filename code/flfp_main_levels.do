@@ -1,5 +1,3 @@
-/* split up share analysis by levels */
-/* import dataset */
 use $tmp/elec_analysis, clear
 
 /* generate variable for treat_post */
@@ -25,8 +23,22 @@ sort shrid2 pop
 ren pc_tot_p population
 bys shrid2: egen pc_tot_p = max(pop)
 
+/* merge with covars */
+ren shrid1 shrid
+merge m:1 shrid using $tmp/covars, keep(match) nogen
+
+/* create interactions */
+ren pc01_vd_* *
+global covars t_p m_sch s_sch s_s_sch college hosp tot_exp tot_irr tar_road dist_town
+foreach var of var $covars {
+gen pre_`var' = pre * `var'
+gen post_`var' = post * `var'
+}
+
+global covar_trends pre_* post_*
+
 /* A. Log (men ag employed) */
-reghdfe ln_men_ag treat_pre treat_post pc_m [pw = pc_tot_p], ///
+reghdfe ln_men_ag treat_pre treat_post $covar_trends pc_m [pw = pc_tot_p], ///
 absorb(district period state_trend dec_trend quart_trend) ///
 cluster(district)
 sum ln_men_ag if e(sample) == 1 & treat == 0 & post == 1
@@ -36,7 +48,7 @@ estadd local cm "`cm'"
 estimates store m1
 
 /* B. Log (women ag employed) */
-reghdfe ln_fem_ag treat_pre treat_post pc_f [pw = pc_tot_p], ///
+reghdfe ln_fem_ag treat_pre treat_post $covar_trends pc_f [pw = pc_tot_p], ///
 absorb(district period state_trend dec_trend quart_trend) ///
 cluster(district)
 sum ln_fem_ag if e(sample) == 1 & treat == 0 & post == 1
@@ -46,7 +58,7 @@ estadd local cm "`cm'"
 estimates store m2
 
 /* C. Log (men non-ag employed) */
-reghdfe ln_men treat_pre treat_post pc_m [pw = pc_tot_p], ///
+reghdfe ln_men treat_pre treat_post $covar_trends pc_m [pw = pc_tot_p], ///
 absorb(district period state_trend dec_trend quart_trend) ///
 cluster(district) 
 sum ln_men if e(sample) == 1 & treat == 0 & post == 1
@@ -56,7 +68,7 @@ estadd local cm "`cm'"
 estimates store m3
 
 /* D. Log (women non-ag employed) */
-reghdfe ln_fem treat_pre treat_post pc_f [pw = pc_tot_p], ///
+reghdfe ln_fem treat_pre treat_post $covar_trends pc_f [pw = pc_tot_p], ///
 absorb(district period state_trend dec_trend quart_trend) ///
 cluster(district) 
 sum ln_fem if e(sample) == 1 & treat == 0 & post == 1

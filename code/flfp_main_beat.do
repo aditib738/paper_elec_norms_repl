@@ -37,6 +37,20 @@ drop pop
 /* drop pre treatment period */
 drop if period == 0
 
+/* merge with covars */
+ren shrid1 shrid
+merge m:1 shrid using ~/data/covars, keep(match) nogen
+
+/* create interactions */
+ren pc01_vd_* *
+global covars t_p m_sch s_sch s_s_sch college hosp tot_exp tot_irr tar_road dist_town
+foreach var of var $covars {
+gen post_`var' = post * `var'
+}
+
+global covar_trends post_*
+
+
 /****************************/
 /* Beating justified: Index */
 /****************************/
@@ -45,7 +59,7 @@ drop if period == 0
 gen beat_post = beat_index * post
 gen elec_beat = treat_post * beat_index
 
-reghdfe pc_mainwork_fshare treat_post beat_post elec_beat [pw = pc_tot_p], ///
+reghdfe pc_mainwork_fshare $covar_trends treat_post beat_post elec_beat [pw = pc_tot_p], ///
 absorb(district period state_trend dec_trend quart_trend) cluster(district) 
 sum pc_mainwork_fshare if e(sample) == 1 & treat == 0 & post == 1
 local mean = `r(mean)'
@@ -53,7 +67,7 @@ local cm: di %9.2f `mean'
 estadd local cm "`cm'"
 estimates store m1
 
-reghdfe pc_main_al_fshare treat_post beat_post elec_beat [pw = pc_tot_p], ///
+reghdfe pc_main_al_fshare $covar_trends treat_post beat_post elec_beat [pw = pc_tot_p], ///
 absorb(district period state_trend dec_trend quart_trend) cluster(district) 
 sum pc_main_al_fshare if e(sample) == 1 & treat == 0 & post == 1
 local mean = `r(mean)'
@@ -61,7 +75,7 @@ local cm: di %9.2f `mean'
 estadd local cm "`cm'"
 estimates store m2
 
-reghdfe pc_main_cl_fshare treat_post beat_post elec_beat [pw = pc_tot_p], ///
+reghdfe pc_main_cl_fshare $covar_trends treat_post beat_post elec_beat [pw = pc_tot_p], ///
 absorb(district period state_trend dec_trend quart_trend) cluster(district) 
 sum pc_main_cl_fshare if e(sample) == 1 & treat == 0 & post == 1
 local mean = `r(mean)'
@@ -69,7 +83,7 @@ local cm: di %9.2f `mean'
 estadd local cm "`cm'"
 estimates store m3
 
-reghdfe pc_main_ot_fshare treat_post beat_post elec_beat [pw = pc_tot_p], ///
+reghdfe pc_main_ot_fshare $covar_trends treat_post beat_post elec_beat [pw = pc_tot_p], ///
 absorb(district period state_trend dec_trend quart_trend) cluster(district) 
 sum pc_main_ot_fshare if e(sample) == 1 & treat == 0 & post == 1
 local mean = `r(mean)'
@@ -77,7 +91,7 @@ local cm: di %9.2f `mean'
 estadd local cm "`cm'"
 estimates store m4
 
-reghdfe pc_main_hh_fshare treat_post beat_post elec_beat [pw = pc_tot_p], ///
+reghdfe pc_main_hh_fshare $covar_trends treat_post beat_post elec_beat [pw = pc_tot_p], ///
 absorb(district period state_trend dec_trend quart_trend) cluster(district) 
 sum pc_main_hh_fshare if e(sample) == 1 & treat == 0 & post == 1
 local mean = `r(mean)'
@@ -85,7 +99,7 @@ local cm: di %9.2f `mean'
 estadd local cm "`cm'"
 estimates store m5
 
-reghdfe ec_share_count_own_f treat_post beat_post elec_beat [pw = pc_tot_p], ///
+reghdfe ec_share_count_own_f $covar_trends treat_post beat_post elec_beat [pw = pc_tot_p], ///
 absorb(district period state_trend dec_trend quart_trend) cluster(district) 
 sum ec_share_count_own_f if e(sample) == 1 & treat == 0 & post == 1
 local mean = `r(mean)'
@@ -93,7 +107,7 @@ local cm: di %9.2f `mean'
 estadd local cm "`cm'"
 estimates store m6
 
-reghdfe ec_share_count_f treat_post beat_post elec_beat [pw = pc_tot_p], ///
+reghdfe ec_share_count_f $covar_trends treat_post beat_post elec_beat [pw = pc_tot_p], ///
 absorb(district period state_trend dec_trend quart_trend) cluster(district) 
 sum ec_share_count_f if e(sample) == 1 & treat == 0 & post == 1
 local mean = `r(mean)'
@@ -101,7 +115,7 @@ local cm: di %9.2f `mean'
 estadd local cm "`cm'"
 estimates store m7
 
-reghdfe ec_share_emp_f treat_post beat_post elec_beat [pw = pc_tot_p], ///
+reghdfe ec_share_emp_f $covar_trends treat_post beat_post elec_beat [pw = pc_tot_p], ///
 absorb(district period state_trend dec_trend quart_trend) cluster(district) 
 sum ec_share_emp_f if e(sample) == 1 & treat == 0 & post == 1
 local mean = `r(mean)'
@@ -110,7 +124,7 @@ estadd local cm "`cm'"
 estimates store m8
 
 esttab m1 m2 m3 m4 m5 m8 m6 m7 using ///
-$out/flfp_beat_village.csv, drop(_cons) ///
+$out/flfp_beat_village.csv, drop(_cons $covar_trends ) ///
 mlabel("Main workers" ///
 "Ag labor" "Cultivators" ///
 "Other" "Household" "Non-farm" "Firm owners" "Firms employ women") ///
@@ -139,7 +153,7 @@ title("Beating justification (Index)")
 gen dbeat_post = beat_dummy * post
 gen elec_dbeat = treat_post * beat_dummy
 
-reghdfe pc_mainwork_fshare treat_post dbeat_post elec_dbeat [pw = pc_tot_p], ///
+reghdfe pc_mainwork_fshare $covar_trends treat_post dbeat_post elec_dbeat [pw = pc_tot_p], ///
 absorb(district period state_trend dec_trend quart_trend) cluster(district) 
 sum pc_mainwork_fshare if e(sample) == 1 & treat == 0 & post == 1
 local mean = `r(mean)'
@@ -147,7 +161,7 @@ local cm: di %9.2f `mean'
 estadd local cm "`cm'"
 estimates store m1
 
-reghdfe pc_main_al_fshare treat_post dbeat_post elec_dbeat [pw = pc_tot_p], ///
+reghdfe pc_main_al_fshare $covar_trends treat_post dbeat_post elec_dbeat [pw = pc_tot_p], ///
 absorb(district period state_trend dec_trend quart_trend) cluster(district) 
 sum pc_main_al_fshare if e(sample) == 1 & treat == 0 & post == 1
 local mean = `r(mean)'
@@ -155,7 +169,7 @@ local cm: di %9.2f `mean'
 estadd local cm "`cm'"
 estimates store m2
 
-reghdfe pc_main_cl_fshare treat_post dbeat_post elec_dbeat [pw = pc_tot_p], ///
+reghdfe pc_main_cl_fshare $covar_trends treat_post dbeat_post elec_dbeat [pw = pc_tot_p], ///
 absorb(district period state_trend dec_trend quart_trend) cluster(district) 
 sum pc_main_cl_fshare if e(sample) == 1 & treat == 0 & post == 1
 local mean = `r(mean)'
@@ -163,7 +177,7 @@ local cm: di %9.2f `mean'
 estadd local cm "`cm'"
 estimates store m3
 
-reghdfe pc_main_ot_fshare treat_post dbeat_post elec_dbeat [pw = pc_tot_p], ///
+reghdfe pc_main_ot_fshare $covar_trends treat_post dbeat_post elec_dbeat [pw = pc_tot_p], ///
 absorb(district period state_trend dec_trend quart_trend) cluster(district) 
 sum pc_main_ot_fshare if e(sample) == 1 & treat == 0 & post == 1
 local mean = `r(mean)'
@@ -171,7 +185,7 @@ local cm: di %9.2f `mean'
 estadd local cm "`cm'"
 estimates store m4
 
-reghdfe pc_main_hh_fshare treat_post dbeat_post elec_dbeat [pw = pc_tot_p], ///
+reghdfe pc_main_hh_fshare $covar_trends treat_post dbeat_post elec_dbeat [pw = pc_tot_p], ///
 absorb(district period state_trend dec_trend quart_trend) cluster(district) 
 sum pc_main_hh_fshare if e(sample) == 1 & treat == 0 & post == 1
 local mean = `r(mean)'
@@ -179,7 +193,7 @@ local cm: di %9.2f `mean'
 estadd local cm "`cm'"
 estimates store m5
 
-reghdfe ec_share_count_own_f treat_post dbeat_post elec_dbeat [pw = pc_tot_p], ///
+reghdfe ec_share_count_own_f $covar_trends treat_post dbeat_post elec_dbeat [pw = pc_tot_p], ///
 absorb(district period state_trend dec_trend quart_trend) cluster(district) 
 sum ec_share_count_own_f if e(sample) == 1 & treat == 0 & post == 1
 local mean = `r(mean)'
@@ -187,7 +201,7 @@ local cm: di %9.2f `mean'
 estadd local cm "`cm'"
 estimates store m6
 
-reghdfe ec_share_count_f treat_post dbeat_post elec_dbeat [pw = pc_tot_p], ///
+reghdfe ec_share_count_f $covar_trends treat_post dbeat_post elec_dbeat [pw = pc_tot_p], ///
 absorb(district period state_trend dec_trend quart_trend) cluster(district) 
 sum ec_share_count_f if e(sample) == 1 & treat == 0 & post == 1
 local mean = `r(mean)'
@@ -195,7 +209,7 @@ local cm: di %9.2f `mean'
 estadd local cm "`cm'"
 estimates store m7
 
-reghdfe ec_share_emp_f treat_post dbeat_post elec_dbeat [pw = pc_tot_p], ///
+reghdfe ec_share_emp_f $covar_trends treat_post dbeat_post elec_dbeat [pw = pc_tot_p], ///
 absorb(district period state_trend dec_trend quart_trend) cluster(district) 
 sum ec_share_emp_f if e(sample) == 1 & treat == 0 & post == 1
 local mean = `r(mean)'
@@ -204,7 +218,7 @@ estadd local cm "`cm'"
 estimates store m8
 
 esttab m1 m2 m3 m4 m5 m8 m6 m7 using ///
-$out/flfp_dbeat_village.csv, drop(_cons) ///
+$out/flfp_dbeat_village.csv, drop(_cons $covar_trends ) ///
 mlabel("Main workers" ///
 "Ag labor" "Cultivators" ///
 "Other" "Household" "Non-farm" "Firm owners" "Firms employ women") ///

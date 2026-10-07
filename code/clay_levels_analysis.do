@@ -9,6 +9,21 @@ gen clay_pre = clay*pre
 gen elec_clay_pre = treat_pre * clay
 
 
+/* merge with covars */
+ren shrid1 shrid
+merge m:1 shrid using $tmp/covars, keep(match) nogen
+
+/* create interactions */
+ren pc01_vd_* *
+global covars t_p m_sch s_sch s_s_sch college hosp tot_exp tot_irr tar_road dist_town
+foreach var of var $covars {
+gen pre_`var' = pre * `var'
+gen post_`var' = post * `var'
+}
+
+global covar_trends pre_* post_*
+
+
 foreach g in f m {
 gen ln_non_ag_`g' = ln(ec_emp_`g' + 1)
 gen ln_non_ag_hh_`g' = ln(pc_main_hh_`g' + 1)
@@ -21,7 +36,7 @@ gen any_own_`g' = own_`g' > 0 & !mi(own_`g')
 gen ln_own_`g' = ln(own_`g' + 1)
 }
 
-reghdfe any_own_f treat_pre clay_pre elec_clay_pre clay clay_post treat_post elec_clay pc_f [pw = pc_tot_p], ///
+reghdfe any_own_f $covar_trends treat_pre clay_pre elec_clay_pre clay clay_post treat_post elec_clay pc_f [pw = pc_tot_p], ///
 absorb(district period state_trend dec_trend quart_trend) ///
 cluster(district)
 sum any_own_f if e(sample) == 1 & treat == 0 & post == 1
@@ -30,7 +45,7 @@ local cm: di %9.2f `mean'
 estadd local cm "`cm'"
 estimates store m1
 
-reghdfe any_own_m treat_pre clay_pre elec_clay_pre clay clay_post treat_post elec_clay pc_m [pw = pc_tot_p], ///
+reghdfe any_own_m $covar_trends treat_pre clay_pre elec_clay_pre clay clay_post treat_post elec_clay pc_m [pw = pc_tot_p], ///
 absorb(district period state_trend dec_trend quart_trend) ///
 cluster(district)
 sum any_own_m if e(sample) == 1 & treat == 0 & post == 1
@@ -39,7 +54,7 @@ local cm: di %9.2f `mean'
 estadd local cm "`cm'"
 estimates store m2
 
-reghdfe ln_own_f treat_pre clay_pre elec_clay_pre clay clay_post treat_post elec_clay pc_f [pw = pc_tot_p], ///
+reghdfe ln_own_f $covar_trends treat_pre clay_pre elec_clay_pre clay clay_post treat_post elec_clay pc_f [pw = pc_tot_p], ///
 absorb(district period state_trend dec_trend quart_trend) ///
 cluster(district)
 sum ln_own_f if e(sample) == 1 & treat == 0 & post == 1
@@ -48,7 +63,7 @@ local cm: di %9.2f `mean'
 estadd local cm "`cm'"
 estimates store m3
 
-reghdfe ln_own_m treat_pre clay_pre elec_clay_pre clay clay_post treat_post elec_clay pc_m [pw = pc_tot_p], ///
+reghdfe ln_own_m $covar_trends treat_pre clay_pre elec_clay_pre clay clay_post treat_post elec_clay pc_m [pw = pc_tot_p], ///
 absorb(district period state_trend dec_trend quart_trend) ///
 cluster(district)
 sum ln_own_m if e(sample) == 1 & treat == 0 & post == 1
@@ -59,7 +74,7 @@ estimates store m4
 
 /* store in nice table */
 esttab m1 m2 m3 m4 using ///
-$out/flfp_main_clay_levels.csv, drop(_cons) ///
+$out/flfp_main_clay_levels.csv, drop(_cons $covar_trends ) ///
 coeflabel(treat_post "1[10th-Plan district] x 1[2011]" ///
 elec_clay "1[10th-Plan district] x 1[2011] x Clay content") ///
 scalar("cm Mean of dep var" ) ///

@@ -27,7 +27,7 @@ la define g 1 "Brahmin" 2 "Upper caste" 3 "OBC" 4 "Dalit" 5 "Adivasi" 6 "Muslim"
 la val groups g
 
 cibar flfp [pw = SWEIGHT], over(groups cons_decile) graphopts(ytitle("FLFP %") ylab(, nogrid) xlab(, nogrid) xtitle("Quintile: Consumption per capita") legend(size(small)))
-graph export ~/electric_flfp/exhibits/flfp_copc.pdf, replace
+graph export $out/flfp_copc.pdf, replace
 
 /* version of graph above with consolidated caste groups */
 
@@ -40,7 +40,7 @@ la define gl 1 "Forward castes" 3 "Marginalized castes" 2 "Other castes/religion
 la val groups_large gl
 
 cibar flfp [pw = SWEIGHT], over(groups_large cons_decile) graphopts(ytitle("FLFP %") ylab(, nogrid) xlab(, nogrid) xtitle("Quintile: Consumption per capita") legend(size(small)))
-graph export ~/electric_flfp/exhibits/flfp_copc_large.pdf, replace
+graph export $out/flfp_copc_large.pdf, replace
 
 /* distribution of key outcomes at baseline */
 use $tmp/elec_analysis, clear

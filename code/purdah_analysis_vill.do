@@ -57,7 +57,21 @@ gen elec_purdah = treat_post * purdah
 gen purdah_pre = purdah * pre
 gen elec_purdah_pre = treat_pre * purdah
 
-reghdfe pc_mainwork_fshare purdah_pre elec_purdah_pre treat_pre treat_post purdah purdah_post elec_purdah [pw = pc_tot_p], ///
+/* merge with covars */
+ren shrid1 shrid
+merge m:1 shrid using $tmp/covars, keep(match) nogen
+
+/* create interactions */
+ren pc01_vd_* *
+global covars t_p m_sch s_sch s_s_sch college hosp tot_exp tot_irr tar_road dist_town
+foreach var of var $covars {
+gen pre_`var' = pre * `var'
+gen post_`var' = post * `var'
+}
+
+global covar_trends pre_* post_*
+
+reghdfe pc_mainwork_fshare $covar_trends purdah_pre elec_purdah_pre treat_pre treat_post purdah purdah_post elec_purdah [pw = pc_tot_p], ///
 absorb(shrid2 period state_trend dec_trend quart_trend) cluster(district) 
 sum pc_mainwork_fshare if e(sample) == 1 & treat == 0 & post == 1
 local mean = `r(mean)'
@@ -65,7 +79,7 @@ local cm: di %9.2f `mean'
 estadd local cm "`cm'"
 estimates store m1
 
-reghdfe pc_main_al_fshare purdah_pre elec_purdah_pre treat_pre treat_post purdah purdah_post elec_purdah [pw = pc_tot_p], ///
+reghdfe pc_main_al_fshare $covar_trends purdah_pre elec_purdah_pre treat_pre treat_post purdah purdah_post elec_purdah [pw = pc_tot_p], ///
 absorb(shrid2 period state_trend dec_trend quart_trend) cluster(district) 
 sum pc_main_al_fshare if e(sample) == 1 & treat == 0 & post == 1
 local mean = `r(mean)'
@@ -73,7 +87,7 @@ local cm: di %9.2f `mean'
 estadd local cm "`cm'"
 estimates store m2
 
-reghdfe pc_main_cl_fshare purdah_pre elec_purdah_pre treat_pre treat_post purdah purdah_post elec_purdah [pw = pc_tot_p], ///
+reghdfe pc_main_cl_fshare $covar_trends purdah_pre elec_purdah_pre treat_pre treat_post purdah purdah_post elec_purdah [pw = pc_tot_p], ///
 absorb(shrid2 period state_trend dec_trend quart_trend) cluster(district) 
 sum pc_main_cl_fshare if e(sample) == 1 & treat == 0 & post == 1
 local mean = `r(mean)'
@@ -81,7 +95,7 @@ local cm: di %9.2f `mean'
 estadd local cm "`cm'"
 estimates store m3
 
-reghdfe pc_main_ot_fshare purdah_pre elec_purdah_pre treat_pre treat_post purdah purdah_post elec_purdah [pw = pc_tot_p], ///
+reghdfe pc_main_ot_fshare $covar_trends purdah_pre elec_purdah_pre treat_pre treat_post purdah purdah_post elec_purdah [pw = pc_tot_p], ///
 absorb(shrid2 period state_trend dec_trend quart_trend) cluster(district) 
 sum pc_main_ot_fshare if e(sample) == 1 & treat == 0 & post == 1
 local mean = `r(mean)'
@@ -89,7 +103,7 @@ local cm: di %9.2f `mean'
 estadd local cm "`cm'"
 estimates store m4
 
-reghdfe pc_main_hh_fshare purdah_pre elec_purdah_pre treat_pre treat_post purdah purdah_post elec_purdah [pw = pc_tot_p], ///
+reghdfe pc_main_hh_fshare $covar_trends purdah_pre elec_purdah_pre treat_pre treat_post purdah purdah_post elec_purdah [pw = pc_tot_p], ///
 absorb(shrid2 period state_trend dec_trend quart_trend) cluster(district) 
 sum pc_main_hh_fshare if e(sample) == 1 & treat == 0 & post == 1
 local mean = `r(mean)'
@@ -97,7 +111,7 @@ local cm: di %9.2f `mean'
 estadd local cm "`cm'"
 estimates store m5
 
-reghdfe ec_share_count_own_f purdah_pre elec_purdah_pre treat_pre treat_post purdah purdah_post elec_purdah [pw = pc_tot_p], ///
+reghdfe ec_share_count_own_f $covar_trends purdah_pre elec_purdah_pre treat_pre treat_post purdah purdah_post elec_purdah [pw = pc_tot_p], ///
 absorb(shrid2 period state_trend dec_trend quart_trend) cluster(district) 
 sum ec_share_count_own_f if e(sample) == 1 & treat == 0 & post == 1
 local mean = `r(mean)'
@@ -105,7 +119,7 @@ local cm: di %9.2f `mean'
 estadd local cm "`cm'"
 estimates store m6
 
-reghdfe ec_share_count_f purdah_pre elec_purdah_pre treat_pre treat_post purdah purdah_post elec_purdah [pw = pc_tot_p], ///
+reghdfe ec_share_count_f $covar_trends purdah_pre elec_purdah_pre treat_pre treat_post purdah purdah_post elec_purdah [pw = pc_tot_p], ///
 absorb(shrid2 period state_trend dec_trend quart_trend) cluster(district) 
 sum ec_share_count_f if e(sample) == 1 & treat == 0 & post == 1
 local mean = `r(mean)'
@@ -113,7 +127,7 @@ local cm: di %9.2f `mean'
 estadd local cm "`cm'"
 estimates store m7
 
-reghdfe ec_share_emp_f purdah_pre elec_purdah_pre treat_pre treat_post purdah purdah_post elec_purdah [pw = pc_tot_p], ///
+reghdfe ec_share_emp_f $covar_trends purdah_pre elec_purdah_pre treat_pre treat_post purdah purdah_post elec_purdah [pw = pc_tot_p], ///
 absorb(shrid2 period state_trend dec_trend quart_trend) cluster(district) 
 sum ec_share_emp_f if e(sample) == 1 & treat == 0 & post == 1
 local mean = `r(mean)'

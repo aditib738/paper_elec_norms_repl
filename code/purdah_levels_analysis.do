@@ -1,5 +1,3 @@
-/* create interacted results with baseline muslim population share */
-/* import data */
 use $tmp/ihds_dist_analysis, clear
 
 /* keep only period 1 */
@@ -57,6 +55,20 @@ gen elec_purdah = treat_post * purdah
 gen purdah_pre = purdah * pre
 gen elec_purdah_pre = treat_pre * purdah
 
+/* merge with covars */
+ren shrid1 shrid
+merge m:1 shrid using $tmp/covars, keep(match) nogen
+
+/* create interactions */
+ren pc01_vd_* *
+global covars t_p m_sch s_sch s_s_sch college hosp tot_exp tot_irr tar_road dist_town
+foreach var of var $covars {
+gen pre_`var' = pre * `var'
+gen post_`var' = post * `var'
+}
+
+global covar_trends pre_* post_*
+
 /* create level outcomes */
 gen ln_mainwork_f = ln(pc_mainwork_f + 1)
 gen ln_mainwork_m = ln(pc_mainwork_m + 1)
@@ -67,7 +79,7 @@ gen ln_cl_m = ln(pc_main_cl_m + 1)
 gen ln_nag_f = ln(ec_emp_f + 1)
 gen ln_nag_m = ln(ec_emp_m + 1)
 
-reghdfe ln_mainwork_f pc_f purdah_pre elec_purdah_pre treat_pre treat_post purdah purdah_post elec_purdah [pw = pc_tot_p], ///
+reghdfe ln_mainwork_f pc_f $covar_trends purdah_pre elec_purdah_pre treat_pre treat_post purdah purdah_post elec_purdah [pw = pc_tot_p], ///
 absorb(district period state_trend dec_trend quart_trend) cluster(district) 
 sum ln_mainwork_f if e(sample) == 1 & treat == 0 & post == 1
 local mean = `r(mean)'
@@ -75,7 +87,7 @@ local cm: di %9.2f `mean'
 estadd local cm "`cm'"
 estimates store m1
 
-reghdfe ln_mainwork_m pc_m purdah_pre elec_purdah_pre treat_pre treat_post purdah purdah_post elec_purdah [pw = pc_tot_p], ///
+reghdfe ln_mainwork_m pc_m $covar_trends purdah_pre elec_purdah_pre treat_pre treat_post purdah purdah_post elec_purdah [pw = pc_tot_p], ///
 absorb(district period state_trend dec_trend quart_trend) cluster(district) 
 sum ln_mainwork_m if e(sample) == 1 & treat == 0 & post == 1
 local mean = `r(mean)'
@@ -83,7 +95,7 @@ local cm: di %9.2f `mean'
 estadd local cm "`cm'"
 estimates store m2
 
-reghdfe ln_al_f pc_f purdah_pre elec_purdah_pre treat_pre treat_post purdah purdah_post elec_purdah [pw = pc_tot_p], ///
+reghdfe ln_al_f pc_f $covar_trends purdah_pre elec_purdah_pre treat_pre treat_post purdah purdah_post elec_purdah [pw = pc_tot_p], ///
 absorb(district period state_trend dec_trend quart_trend) cluster(district) 
 sum ln_al_f if e(sample) == 1 & treat == 0 & post == 1
 local mean = `r(mean)'
@@ -91,7 +103,7 @@ local cm: di %9.2f `mean'
 estadd local cm "`cm'"
 estimates store m3
 
-reghdfe ln_al_m pc_m purdah_pre elec_purdah_pre treat_pre treat_post purdah purdah_post elec_purdah [pw = pc_tot_p], ///
+reghdfe ln_al_m pc_m $covar_trends purdah_pre elec_purdah_pre treat_pre treat_post purdah purdah_post elec_purdah [pw = pc_tot_p], ///
 absorb(district period state_trend dec_trend quart_trend) cluster(district) 
 sum ln_al_m if e(sample) == 1 & treat == 0 & post == 1
 local mean = `r(mean)'
@@ -99,7 +111,7 @@ local cm: di %9.2f `mean'
 estadd local cm "`cm'"
 estimates store m4
 
-reghdfe ln_cl_f pc_f purdah_pre elec_purdah_pre treat_pre treat_post purdah purdah_post elec_purdah [pw = pc_tot_p], ///
+reghdfe ln_cl_f pc_f $covar_trends purdah_pre elec_purdah_pre treat_pre treat_post purdah purdah_post elec_purdah [pw = pc_tot_p], ///
 absorb(district period state_trend dec_trend quart_trend) cluster(district) 
 sum ln_cl_f if e(sample) == 1 & treat == 0 & post == 1
 local mean = `r(mean)'
@@ -107,7 +119,7 @@ local cm: di %9.2f `mean'
 estadd local cm "`cm'"
 estimates store m5
 
-reghdfe ln_cl_m pc_m purdah_pre elec_purdah_pre treat_pre treat_post purdah purdah_post elec_purdah [pw = pc_tot_p], ///
+reghdfe ln_cl_m pc_m $covar_trends purdah_pre elec_purdah_pre treat_pre treat_post purdah purdah_post elec_purdah [pw = pc_tot_p], ///
 absorb(district period state_trend dec_trend quart_trend) cluster(district) 
 sum ln_cl_m if e(sample) == 1 & treat == 0 & post == 1
 local mean = `r(mean)'

@@ -1,32 +1,26 @@
+/* run pretrends test on firm ownership interaction analysis */
+/* Prep economic census data to do analysis separately by firm owner */
+/* gender to speak to Chiplunkar results */
+
+/* only use economic census outcomes for this analysis */
+
+/* first prep ec05 data for this */
+
+/* import dataset */
+use ~/data/ec05_shrid, clear
+
+/* create new variables */
+gen base_fem_share = ec05_count_own_f/ec05_count_all
+
+/* keep variables of interest */
+keep base* shrid2
+
+/* compress and save */
+compress
+save $tmp/ec_working, replace
+
 /* bring in analysis dataset */
-use $tmp/elec_analysis, clear
-
-/* generate variable for treat_post */
-gen treat_post = treat * post
-gen pre = period == 0
-gen treat_pre = treat * pre
-
-/* generate linear time trends */
-egen district = group(pc11_state_id pc11_district_id)
-egen state_trend = group(pc11_state_id period)
-egen dec_trend = group(dec period)
-egen quart_trend = group(quart period)
-drop if mi(dec)
-
-/* drop UTs */
-drop if inlist(pc11_state_name, "chandigarh", "andaman nicobar islands", ///
- "dadra nagar haveli", "daman diu", "goa", "lakshadweep", "puducherry")
-
-/* create population */
-gen pop = pc_tot_p if period == 1
-replace pop = 0 if mi(pop)
-sort shrid2 pop
-drop pc_tot_p
-bys shrid2: egen pc_tot_p = max(pop)
-drop pop
-
-/* drop post period */
-drop if period == 2
+use $tmp/main_analysis, clear
 
 /* merge */
 merge m:1 shrid2 using $tmp/ec_working, keep(match) nogen
@@ -35,12 +29,15 @@ merge m:1 shrid2 using $tmp/ec_working, keep(match) nogen
 gen treat_base_share = base_fem_share*treat_pre
 gen base_pre = base_fem_share*pre
 
+global covar_trends pre_* 
+drop if period == 2
+
 /*******************/
 /* Run regressions */
 /*******************/
 
 /* outcome: female share of non ag labor force */
-reghdfe ec_share_emp_f base_pre treat_base_share treat_pre  [pw = pc_tot_p], ///
+reghdfe ec_share_emp_f base_pre treat_pre treat_base_share $covar_trends [pw = pc_tot_p], ///
 absorb(district period state_trend dec_trend quart_trend) ///
 cluster(district)
 sum base_fem_share if e(sample) == 1 
@@ -54,7 +51,7 @@ estadd local cm "`cm'"
 estimates store m1
 
 /* outcome: share of firms employing women */
-reghdfe ec_share_count_f base_pre treat_base_share treat_pre  [pw = pc_tot_p], ///
+reghdfe ec_share_count_f base_pre treat_base_share treat_pre $covar_trends  [pw = pc_tot_p], ///
 absorb(district period state_trend dec_trend quart_trend) ///
 cluster(district)
 sum base_fem_share if e(sample) == 1 
@@ -76,5 +73,9 @@ treat_pre "1[10th-Plan district] x 1[1991]" ///
 treat_base_share "Treatment x Baseline female firm owners x 1[1991]") ///
 scalar("cm Mean of dep var" "dm Mean of female-firm owner \%" ) ///
 star(* 0.10 ** 0.05 *** 0.01) b(3) nonotes se(3) replace
+
+
+
+
 
 

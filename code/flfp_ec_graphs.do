@@ -42,6 +42,16 @@ keep if period == 1
 keep pc11_state_id pc11_district_id shrid1 pc_tot_p dec quart shrid2 treat
 duplicates drop
 
+/* bring in covars */
+/* merge with covars */
+ren shrid1 shrid
+merge m:1 shrid using $tmp/covars, keep(match) nogen
+ren shrid shrid1
+
+/* create interactions */
+ren pc01_vd_* *
+global covars t_p m_sch s_sch s_s_sch college hosp tot_exp tot_irr tar_road dist_town
+
 compress
 save $tmp/fm, replace
 
@@ -64,7 +74,7 @@ gen period = -1
 /* merge with main dataset */
 /* keep dec quart pc_tot_p */
 ren shrid shrid1
-merge 1:m shrid1 using $tmp/fm, keepusing(pc_tot_p dec quart shrid2 pc11_state_id pc11_district_id treat) keep(match) nogen
+merge 1:m shrid1 using $tmp/fm, keepusing(pc_tot_p dec quart shrid2 pc11_state_id pc11_district_id treat $covars) keep(match) nogen
 duplicates drop
 
 /* compress and save */
@@ -78,8 +88,18 @@ use $tmp/elec_analysis, clear
 drop if inlist(pc11_state_name, "chandigarh", "andaman nicobar islands", ///
  "dadra nagar haveli", "daman diu", "goa", "lakshadweep", "puducherry")
 
+/* bring in covars */
+/* merge with covars */
+ren shrid1 shrid
+merge m:1 shrid using $tmp/covars, keep(match) nogen
+ren shrid shrid1
+
+/* create interactions */
+ren pc01_vd_* *
+global covars t_p m_sch s_sch s_s_sch college hosp tot_exp tot_irr tar_road dist_town
+
 /* drop vars we don't need */
-keep ec_* period shrid2 pc_tot_p treat post pc11_state_id pc11_district_id dec quart 
+keep ec_* period shrid2 pc_tot_p treat post pc11_state_id pc11_district_id dec quart $covars
 
 /* bring in ec90 */
 append using $tmp/ec_90_fm
@@ -110,8 +130,15 @@ gen treat_pre_pre = treat * pre_pre
 /* gen treat post */
 gen treat_post = treat * post
 
+foreach var of var $covars {
+gen pre_pre_`var' = pre_pre * `var'
+gen pre_`var' = pre * `var'
+gen post_`var' = post * `var'
+}
+global covar_trends pre_* post_*
+
 /* main regression */
-reghdfe ec_share_emp_f treat_post treat_pre_pre treat_pre [pw = pc_tot_p], ///
+reghdfe ec_share_emp_f treat_post treat_pre_pre treat_pre $covar_trends [pw = pc_tot_p], ///
 absorb(district period state_trend dec_trend quart_trend) ///
 cluster(district)
 
@@ -124,7 +151,7 @@ name(f, replace) title("Female share of non-farm workers") ylabel(-0.02 (0.01) 0
 restore
 
 /* main regression */
-reghdfe ec_share_count_f treat_post treat_pre treat_pre_pre [pw = pc_tot_p], ///
+reghdfe ec_share_count_f treat_post treat_pre $covar_trends treat_pre_pre [pw = pc_tot_p], ///
 absorb(district period state_trend dec_trend quart_trend) ///
 cluster(district)
 

@@ -1,7 +1,5 @@
-/* controls fe interacted version of caste table */
-/* import data */
-/* replicate purdah analysis at village level */
-/* import data */
+/* this do file replicates the caste heterogeneity analysis at the district level */
+/* prep caste data */
 use $tmp/ihds_dist_analysis, clear
 
 /* keep only unique obs */
@@ -10,38 +8,24 @@ keep if tag == 0
 drop tag
 
 /* merge consumption per capita */
-merge 1:m pc11_state_id pc11_district_id period using $tmp/elec_analysis, keep(match) nogen
+merge 1:m pc11_state_id pc11_district_id period using $tmp/main_analysis, keep(match) nogen
 
-/* generate variable for treat_post */
-gen treat_post = treat * post
+global covar_trends pre_* post_*
 
-/* generate linear time trends */
-egen district = group(pc11_state_id pc11_district_id)
-egen state_trend = group(pc11_state_id period)
-egen dec_trend = group(dec period)
-egen quart_trend = group(quart period)
-drop if mi(dec)
+/* get number of firms */
+gen firms = ec13_count_all if period == 2
+replace firms = ec05_count_all if period == 1
+replace firms = ec98_count_all if period == 0
 
-/* drop UTs */
-drop if inlist(pc11_state_name, "chandigarh", "andaman nicobar islands", ///
- "dadra nagar haveli", "daman diu", "goa", "lakshadweep", "puducherry")
+gen ec_firm_f = ec13_count_f if period == 2
+replace ec_firm_f = ec05_count_f if period == 1
+replace ec_firm_f = ec98_count_f if period == 0
 
-/* drop pre treatment period */
-drop if period == 0
+gen ec_own_f = ec13_count_own_f if period == 2
+replace ec_own_f = ec05_count_own_f if period == 1
+replace ec_own_f = ec98_count_own_f if period == 0
 
-/* create population */
-gen pop = pc_tot_p if period == 1
-replace pop = 0 if mi(pop)
-sort shrid2 pop
-drop pc_tot_p
-bys shrid2: egen pc_tot_p = max(pop)
-drop pop
-
-
-/********************************************************/
 /* Generate caste composition and relevant interactions */
-/********************************************************/
-
 gen scst_05 = scst if period == 1
 replace scst_05 = 0 if mi(scst_05)
 drop scst
@@ -60,24 +44,49 @@ bys shrid2: egen uc = max(uc_05)
 gen uc_post = uc * post
 gen elec_uc = treat_post * uc
 
-/* merge with covars */
-ren shrid1 shrid
-merge m:1 shrid using $tmp/covars, keep(match) nogen
+/* collapse */
+collapse_save_labels
+collapse (sum) pc_mainwork_f pc_main_al_f pc_main_cl_f pc_main_hh_f pc_main_ot_f pc_mainwork_p ec_emp_f ec_emp_all ///
+pc_main_al_m pc_main_cl_m pc_main_ot_m pc_main_hh_m ec_emp_m ///
+firms ec_firm_f ec_own_f pc_tot_p (firstnm) pc11_state_id pc11_district_id scst uc uc_post elec_uc scst_post elec_scst ///
+treat post treat_post pre treat_pre (mean) secc_cons_pc_rural ///
+$covar_trends, by(district period)
+collapse_apply_labels
 
-/* create interactions */
-ren pc01_vd_* *
-global covars t_p m_sch s_sch s_s_sch college hosp tot_exp tot_irr tar_road dist_town
-foreach var of var $covars {
-gen post_`var' = post * `var'
-}
+/* create quartiles of districts within states by exp per capita */
+egen quart = xtile(secc_cons_pc_rural), n(4) by(pc11_state_id)
 
-global covar_trends post_*
+/* create deciles of districts by exp per capita */
+xtile dec = secc_cons_pc_rural, nq(10)
 
+/* state * year */
+egen temp = group(pc11_state_id)
+gen state_year = string(temp) + "-" + string(period)
+drop temp
+replace state_year = subinstr(state_year, "-", "", .)
+destring state_year, replace
+
+/* recreate main outcomes at district level */
+gen pc_mainwork_fshare = pc_mainwork_f/pc_mainwork_p
+gen pc_main_al_fshare = pc_main_al_f/(pc_main_al_f + pc_main_al_m)
+gen pc_main_cl_fshare = pc_main_cl_f/(pc_main_cl_f + pc_main_cl_m) 
+gen pc_main_ot_fshare = pc_main_ot_f/(pc_main_ot_f + pc_main_ot_m)
+gen pc_main_hh_fshare = pc_main_hh_f/(pc_main_hh_f + pc_main_hh_m) 
+gen ec_share_count_own_f = ec_own_f/firms
+gen ec_share_count_f = ec_firm_f/firms
+gen ec_share_emp_f = ec_emp_f/(ec_emp_f + ec_emp_m)
+
+/* generate linear time trends */
+egen state_trend = group(pc11_state_id period)
+egen dec_trend = group(dec period)
+egen quart_trend = group(quart period)
+
+cap log close
+log using $out/district_caste.txt, text replace 
 
 /*********/
 /* SC/ST */
 /*********/
-
 
 reghdfe pc_mainwork_fshare treat_post $covar_trends scst scst_post elec_scst [pw = pc_tot_p], ///
 absorb(district period state_trend dec_trend quart_trend) cluster(district) 
@@ -143,22 +152,6 @@ local cm: di %9.2f `mean'
 estadd local cm "`cm'"
 estimates store m8
 
-esttab m1 m2 m3 m4 m5 m8 m6 m7 using ///
-$out/controls_int/flfp_scst_village_c.csv, keep(elec_scst) ///
-mlabel("Main workers" ///
-"Ag labor" "Cultivators" ///
-"Other" "Household" "Non-farm" "Firm owners" "Firms employ women") ///
-coeflabel(treat_post "1[10th-Plan district] x 1[2011]" ///
-scst "SC-ST share" scst_post "SC-ST share x 1[2011]" ///
-elec_scst "SC-ST share x 1[2011] x 1[10th-Plan district]") ///
-scalar("cm Mean of dep var" ) ///
-star(* 0.10 ** 0.05 *** 0.01) b(3) nonotes se(3) replace
-
-/******/
-/* UC */
-/******/
-
-
 reghdfe pc_mainwork_fshare treat_post $covar_trends uc uc_post elec_uc [pw = pc_tot_p], ///
 absorb(district period state_trend dec_trend quart_trend) cluster(district) 
 sum pc_mainwork_fshare if e(sample) == 1 & treat == 0 & post == 1
@@ -223,13 +216,4 @@ local cm: di %9.2f `mean'
 estadd local cm "`cm'"
 estimates store m8
 
-esttab m1 m2 m3 m4 m5 m8 m6 m7 using ///
-$out/controls_int/flfp_uc_village_c.csv, keep(elec_uc) ///
-mlabel("Main workers" ///
-"Ag labor" "Cultivators" ///
-"Other" "Household" "Non-farm" "Firm owners" "Firms employ women") ///
-coeflabel(treat_post "1[10th-Plan district] x 1[2011]" ///
-uc "UC share" uc_post "UC share x 1[2011]" ///
-elec_uc "UC share x 1[2011] x 1[10th-Plan district]") ///
-scalar("cm Mean of dep var" ) ///
-star(* 0.10 ** 0.05 *** 0.01) b(3) nonotes se(3) replace
+log close

@@ -46,84 +46,81 @@ do $code/purdah_analysis.do
 /* table 7: clay analysis */
 do $code/clay_analysis.do
 
+/* fig */
+do $code/flfp_ec_graphs.do
+
 /************/
 /* Appendix */
 /************/
 
-/* fig a.1. nigtlights map */
+/* nigtlights map */
 do $code/nl_map.do
 
-/* fig a.2. first stage event study */
+/* first stage event study */
 do $code/first_stage.do
 
-/* table a.1.: treatment timing robustness */
+/* treatment timing robustness */
 do $code/flfp_main_robust_timing.do
 
-/* table a.2.: village FE */
+/* village FE */
 do $code/flfp_main_village_fe.do
 
-/* table a.3, a.9, a.17, a.19: q-values */
+/* q-values */
 do $code/qvalues.do
 
-/* table a.4: interacted w baseline covariates */
-do $code/main_robustness.do
-
-/* fig a.5 */
-do $code/flfp_ec_graphs.do
-
-/* table a.5 */
+/* honest did */
 do $code/matched_did.do
 
-/* table a.7 */
+/* female level emp, by sector */
 do $code/flfp_main_disag.do
 
-/* table a.8 */
+/* firm analysis pretrend */
 do $code/ec_firm_pre.do
 
-/* figure a.6 */
+/* mechanism: home productivity vs market productivity */
 do $code/india_mechanisms.do
 
-/* figure a.7 */
+/* mech: gender parity in enrollment */
 do $code/india_mechanisms_ed.do
 
-/* table a.10 */
-do $code/caste_analysis_robustness.do
-
-/* table a.11 */
+/* caste pretrends */
 do $code/caste_analysis_pretrends.do
 
-/* table a.12 */
+/* caste levels */
 do $code/caste_analysis_levels.do
 
-/* table a.13 and a.14 */
-do $code/caste_analysis_covars.do
+/* caste vill fe */
 do $code/caste_analysis_vill.do
 
-/* figure a.8 */
+/* balance */
 do $code/flfp_caste_balance.do
 
-/* figure a.9 */
+/* hh panel analysis */
 do $code/hh_panel_analysis.do
 
-/* table a.15 */
+/* other norms */
 do $code/flfp_main_beat.do
 
-/* figure a.10 */
+/* map of soil analysis */
 do $code/soil_map.do
 
-/* table a.16 */
-/* control interacted spec run in main purdah do file: purdah_analysis.do */
+/* purdah robustness: vill fe */
 do $code/purdah_analysis_vill.do
 
-/* table a.18 */
+/* purdah robustness: levels*/
 do $code/purdah_levels_analysis.do
 
-/* table a.19 */
+/* soil pretrends */
 do $code/clay_pretrends.do
 
-/* table a.20 */
-do $code/clay_analysis_covars.do
+/* soil vill fe */
 do $code/clay_analysis_vill.do
 
-/* table a.21 */
+/* clay levels */
 do $code/clay_levels_analysis.do
+
+/* district level aggregation */
+do $code/main_table_district.do
+do $code/levels_table_district.do
+do $code/caste_table_district.do
+do $code/soil_table_district.do

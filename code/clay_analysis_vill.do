@@ -13,8 +13,22 @@ gen elec_clay_pre = treat_pre * clay
 
 drop if period == 0
 
+/* merge with covars */
+ren shrid1 shrid
+merge m:1 shrid using $tmp/covars, keep(match) nogen
+
+/* create interactions */
+ren pc01_vd_* *
+global covars t_p m_sch s_sch s_s_sch college hosp tot_exp tot_irr tar_road dist_town
+foreach var of var $covars {
+gen pre_`var' = pre * `var'
+gen post_`var' = post * `var'
+}
+
+global covar_trends pre_* post_*
+
 /* A. pc_mainwork_fshare */
-reghdfe pc_mainwork_fshare treat_pre clay_pre elec_clay_pre clay clay_post treat_post elec_clay [pw = pc_tot_p], ///
+reghdfe pc_mainwork_fshare $covar_trends treat_pre clay_pre elec_clay_pre clay clay_post treat_post elec_clay [pw = pc_tot_p], ///
 absorb(shrid2 period state_trend dec_trend quart_trend) ///
 cluster(district)
 sum pc_mainwork_fshare if e(sample) == 1 & treat == 0 & post == 1
@@ -24,7 +38,7 @@ estadd local cm "`cm'"
 estimates store m1
 
 /* B. pc_main_al_fshare */
-reghdfe pc_main_al_fshare treat_pre clay_pre elec_clay_pre clay clay_post treat_post elec_clay [pw = pc_tot_p], ///
+reghdfe pc_main_al_fshare $covar_trends treat_pre clay_pre elec_clay_pre clay clay_post treat_post elec_clay [pw = pc_tot_p], ///
 absorb(shrid2 period state_trend dec_trend quart_trend) ///
 cluster(district)
 sum pc_main_al_fshare if e(sample) == 1 & treat == 0 & post == 1
@@ -34,7 +48,7 @@ estadd local cm "`cm'"
 estimates store m2
 
 /* C. pc_main_cl_fshare */
-reghdfe pc_main_cl_fshare treat_pre clay_pre elec_clay_pre clay clay_post  treat_post elec_clay [pw = pc_tot_p], ///
+reghdfe pc_main_cl_fshare $covar_trends treat_pre clay_pre elec_clay_pre clay clay_post  treat_post elec_clay [pw = pc_tot_p], ///
 absorb(shrid2 period state_trend dec_trend quart_trend) ///
 cluster(district)
 sum pc_main_cl_fshare if e(sample) == 1 & treat == 0 & post == 1
@@ -44,7 +58,7 @@ estadd local cm "`cm'"
 estimates store m3
 
 /* D. pc_main_ot_fshare */
-reghdfe pc_main_ot_fshare treat_pre clay_pre elec_clay_pre clay clay_post treat_post elec_clay [pw = pc_tot_p], ///
+reghdfe pc_main_ot_fshare $covar_trends treat_pre clay_pre elec_clay_pre clay clay_post treat_post elec_clay [pw = pc_tot_p], ///
 absorb(shrid2 period state_trend dec_trend quart_trend) ///
 cluster(district)
 sum pc_main_ot_fshare if e(sample) == 1 & treat == 0 & post == 1
@@ -54,7 +68,7 @@ estadd local cm "`cm'"
 estimates store m4
 
 /* E. pc_main_hh_fshare */
-reghdfe pc_main_hh_fshare treat_pre clay_pre elec_clay_pre clay clay_post treat_post elec_clay [pw = pc_tot_p], ///
+reghdfe pc_main_hh_fshare $covar_trends treat_pre clay_pre elec_clay_pre clay clay_post treat_post elec_clay [pw = pc_tot_p], ///
 absorb(shrid2 period state_trend dec_trend quart_trend) ///
 cluster(district)
 sum pc_main_hh_fshare if e(sample) == 1 & treat == 0 & post == 1
@@ -64,7 +78,7 @@ estadd local cm "`cm'"
 estimates store m5
 
 /* F. ec_share_count_own_f */
-reghdfe ec_share_count_own_f treat_pre clay_pre elec_clay_pre clay clay_post treat_post elec_clay [pw = pc_tot_p], ///
+reghdfe ec_share_count_own_f $covar_trends treat_pre clay_pre elec_clay_pre clay clay_post treat_post elec_clay [pw = pc_tot_p], ///
 absorb(shrid2 period state_trend dec_trend quart_trend) ///
 cluster(district)
 sum ec_share_count_own_f if e(sample) == 1 & treat == 0 & post == 1
@@ -74,7 +88,7 @@ estadd local cm "`cm'"
 estimates store m6
 
 /* G. ec_share_count_f */
-reghdfe ec_share_count_f treat_pre clay_pre elec_clay_pre clay clay_post treat_post elec_clay [pw = pc_tot_p], ///
+reghdfe ec_share_count_f $covar_trends treat_pre clay_pre elec_clay_pre clay clay_post treat_post elec_clay [pw = pc_tot_p], ///
 absorb(shrid2 period state_trend dec_trend quart_trend) ///
 cluster(district)
 sum ec_share_count_f if e(sample) == 1 & treat == 0 & post == 1
@@ -84,7 +98,7 @@ estadd local cm "`cm'"
 estimates store m7
 
 /* H. ec_share_emp_f */
-reghdfe ec_share_emp_f treat_pre clay_pre elec_clay_pre clay clay_post treat_post elec_clay [pw = pc_tot_p], ///
+reghdfe ec_share_emp_f $covar_trends treat_pre clay_pre elec_clay_pre clay clay_post treat_post elec_clay [pw = pc_tot_p], ///
 absorb(shrid2 period state_trend dec_trend quart_trend) ///
 cluster(district)
 sum ec_share_emp_f if e(sample) == 1 & treat == 0 & post == 1
@@ -95,7 +109,7 @@ estimates store m8
 
 /* store in nice table */
 esttab m1 m2 m3 m4 m5 m8 m6 m7 using ///
-$out/flfp_main_clay_fe.csv, drop(_cons) ///
+$out/flfp_main_clay_fe.csv, drop(_cons $covar_trends ) ///
 mlabel("Main workers" ///
 "Ag labor" "Cultivators" ///
 "Other" "Household" "Non-farm" "Firm owners" "Firms employ women") ///

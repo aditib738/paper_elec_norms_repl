@@ -97,14 +97,14 @@ end
 *-------------------------------------------------------------------------------
 clear
 input str25 outcome double pval
-"main_workers"      0.143
-"ag_labor"          0.799
-"cultivators"       0.589
-"nonag"             0.008
-"nonag_hh"          0.167
-"nonag_other"       0.007
-"firm_owners"       0.351
-"firms_emp_women"   0.082
+"main_workers"      0.058
+"ag_labor"          0.636
+"cultivators"       0.522
+"nonag"             0.009
+"nonag_hh"          0.402
+"nonag_other"       0.014
+"firm_owners"       0.221
+"firms_emp_women"   0.029
 end
 display _newline(2) "==== TABLE 1 / A.2 ===="
 run_both
@@ -114,10 +114,10 @@ run_both
 *-------------------------------------------------------------------------------
 clear
 input str25 outcome double pval
-"col1_men_ag"    0.009
-"col2_fem_ag" 0.205
-"col3_men_nonag"    0.897
-"col4_fem_nonag" 0.165
+"col1_men_ag"    0.318
+"col2_fem_ag" 0.670
+"col3_men_nonag"    0.115
+"col4_fem_nonag" 0.046
 end
 display _newline(2) "==== TABLE 3 ===="
 run_both
@@ -127,8 +127,8 @@ run_both
 *-------------------------------------------------------------------------------
 clear
 input str25 outcome double pval
-"col1_fem_nonag"    0.043
-"col2_firms_empwom" 0.099
+"col1_fem_nonag"    0.034
+"col2_firms_empwom" 0.068
 end
 display _newline(2) "==== TABLE 4 ===="
 run_both
@@ -138,14 +138,14 @@ run_both
 *-------------------------------------------------------------------------------
 clear
 input str25 outcome double pval
-"scst_main_workers"   0.223
-"scst_ag_labor"       0.482
-"scst_cultivators"    0.032
-"scst_nonag"          0.397
-"scst_nonag_hh"       0.682
-"scst_nonag_other"    0.415
-"scst_firm_owners"    0.045
-"scst_firms_empwom"   0.670
+"scst_main_workers"   0.248
+"scst_ag_labor"       0.523
+"scst_cultivators"    0.033
+"scst_nonag"          0.395
+"scst_nonag_hh"       0.591
+"scst_nonag_other"    0.324
+"scst_firm_owners"    0.049
+"scst_firms_empwom"   0.643
 end
 display _newline(2) "==== TABLE 5 SC/ST ===="
 run_both
@@ -155,14 +155,14 @@ run_both
 *-------------------------------------------------------------------------------
 clear
 input str25 outcome double pval
-"uc_main_workers"     0.824
-"uc_ag_labor"         0.677
+"uc_main_workers"     0.689
+"uc_ag_labor"         0.615
 "uc_cultivators"      0.577
-"uc_nonag"            0.233
-"uc_nonag_hh"         0.008
-"uc_nonag_other"      0.011
-"uc_firm_owners"      0.041
-"uc_firms_empwom"     0.115
+"uc_nonag"            0.320
+"uc_nonag_hh"         0.010
+"uc_nonag_other"      0.004
+"uc_firm_owners"      0.056
+"uc_firms_empwom"     0.152
 end
 display _newline(2) "==== TABLE 5 UC ===="
 run_both
@@ -172,14 +172,14 @@ run_both
 *-------------------------------------------------------------------------------
 clear
 input str25 outcome double pval
-"purdah_main_workers" 0.011
-"purdah_ag_labor"    0.003
-"purdah_cultivators"  0.000
-"purdah_nonag"        0.159
-"purdah_nonag_hh"     0.193
-"purdah_nonag_other"  0.036
-"purdah_firm_owners"  0.025
-"purdah_firms_empwom" 0.729
+"purdah_main_workers" 0.146
+"purdah_ag_labor"    0.005
+"purdah_cultivators"  0.001
+"purdah_nonag"        0.338
+"purdah_nonag_hh"     0.946
+"purdah_nonag_other"  0.967
+"purdah_firm_owners"  0.008
+"purdah_firms_empwom" 0.936
 end
 display _newline(2) "==== TABLE 6 Purdah ===="
 run_both
@@ -189,14 +189,14 @@ run_both
 *-------------------------------------------------------------------------------
 clear
 input str25 outcome double pval
-"soil_main_workers"   0.857
-"soil_ag_labor"       0.259
-"soil_cultivators"    0.531
-"soil_nonag"          0.360
-"soil_nonag_hh"       0.245
-"soil_nonag_other"    0.075
-"soil_firm_owners"    0.037
-"soil_firms_empwom"   0.278
+"soil_main_workers"   0.885
+"soil_ag_labor"       0.232
+"soil_cultivators"    0.560
+"soil_nonag"          0.378
+"soil_nonag_hh"       0.252
+"soil_nonag_other"    0.073
+"soil_firm_owners"    0.042
+"soil_firms_empwom"   0.275
 end
 display _newline(2) "==== TABLE 7 Soil ===="
 run_both

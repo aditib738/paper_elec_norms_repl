@@ -1,5 +1,6 @@
-/* import dataset */
 use $tmp/mechanisms_analysis, clear
+
+/* analyze */
 
 /* mechanism 1: market productivity channel */
 
@@ -10,7 +11,7 @@ gen manuf_post = manuf_share*post
 estimates clear
 
 /* run main regressions */
-reghdfe pc_mainwork_fshare manuf_post treat_post_manuf treat_post  [pw = pc_tot_p], ///
+reghdfe pc_mainwork_fshare manuf_post treat_post_manuf treat_post $covar_trends  [pw = pc_tot_p], ///
 absorb(district period state_trend dec_trend quart_trend) ///
 cluster(district)
 sum pc_mainwork_fshare if e(sample) == 1 & treat == 0 & post == 1
@@ -20,7 +21,7 @@ estadd local cm "`cm'"
 estimates store m1
 
 /* B. pc_main_al_fshare */
-reghdfe pc_main_al_fshare manuf_post treat_post_manuf treat_post  [pw = pc_tot_p], ///
+reghdfe pc_main_al_fshare manuf_post treat_post_manuf treat_post $covar_trends  [pw = pc_tot_p], ///
 absorb(district period state_trend dec_trend quart_trend) ///
 cluster(district)
 sum pc_main_al_fshare if e(sample) == 1 & treat == 0 & post == 1
@@ -30,7 +31,7 @@ estadd local cm "`cm'"
 estimates store m2
 
 /* C. pc_main_cl_fshare */
-reghdfe pc_main_cl_fshare manuf_post treat_post_manuf treat_post  [pw = pc_tot_p], ///
+reghdfe pc_main_cl_fshare manuf_post treat_post_manuf treat_post $covar_trends  [pw = pc_tot_p], ///
 absorb(district period state_trend dec_trend quart_trend) ///
 cluster(district)
 sum pc_main_cl_fshare if e(sample) == 1 & treat == 0 & post == 1
@@ -40,7 +41,7 @@ estadd local cm "`cm'"
 estimates store m3
 
 /* D. pc_main_ot_fshare */
-reghdfe pc_main_ot_fshare manuf_post treat_post_manuf treat_post  [pw = pc_tot_p], ///
+reghdfe pc_main_ot_fshare manuf_post treat_post_manuf treat_post $covar_trends  [pw = pc_tot_p], ///
 absorb(district period state_trend dec_trend quart_trend) ///
 cluster(district)
 sum pc_main_ot_fshare if e(sample) == 1 & treat == 0 & post == 1
@@ -50,7 +51,7 @@ estadd local cm "`cm'"
 estimates store m4
 
 /* E. pc_main_hh_fshare */
-reghdfe pc_main_hh_fshare manuf_post treat_post_manuf treat_post  [pw = pc_tot_p], ///
+reghdfe pc_main_hh_fshare manuf_post treat_post_manuf treat_post $covar_trends  [pw = pc_tot_p], ///
 absorb(district period state_trend dec_trend quart_trend) ///
 cluster(district)
 sum pc_main_hh_fshare if e(sample) == 1 & treat == 0 & post == 1
@@ -60,7 +61,7 @@ estadd local cm "`cm'"
 estimates store m5
 
 /* F. ec_share_count_own_f */
-reghdfe ec_share_count_own_f manuf_post treat_post_manuf treat_post  [pw = pc_tot_p], ///
+reghdfe ec_share_count_own_f manuf_post treat_post_manuf treat_post $covar_trends  [pw = pc_tot_p], ///
 absorb(district period state_trend dec_trend quart_trend) ///
 cluster(district)
 sum ec_share_count_own_f if e(sample) == 1 & treat == 0 & post == 1
@@ -70,7 +71,7 @@ estadd local cm "`cm'"
 estimates store m6
 
 /* G. ec_share_count_f */
-reghdfe ec_share_count_f manuf_post treat_post_manuf treat_post  [pw = pc_tot_p], ///
+reghdfe ec_share_count_f manuf_post treat_post_manuf treat_post $covar_trends  [pw = pc_tot_p], ///
 absorb(district period state_trend dec_trend quart_trend) ///
 cluster(district)
 sum ec_share_count_f if e(sample) == 1 & treat == 0 & post == 1
@@ -80,7 +81,7 @@ estadd local cm "`cm'"
 estimates store m7
 
 /* H. ec_share_emp_f */
-reghdfe ec_share_emp_f manuf_post treat_post_manuf treat_post  [pw = pc_tot_p], ///
+reghdfe ec_share_emp_f manuf_post treat_post_manuf treat_post $covar_trends  [pw = pc_tot_p], ///
 absorb(district period state_trend dec_trend quart_trend) ///
 cluster(district)
 sum ec_share_emp_f if e(sample) == 1 & treat == 0 & post == 1
@@ -108,7 +109,7 @@ gen msl_elec_post = hpca_msl_elec*post
 estimates clear
 
 /* run main regressions */
-reghdfe pc_mainwork_fshare msl_elec_post treat_post_msl_elec treat_post  [pw = pc_tot_p], ///
+reghdfe pc_mainwork_fshare msl_elec_post treat_post_msl_elec treat_post $covar_trends  [pw = pc_tot_p], ///
 absorb(district period state_trend dec_trend quart_trend) ///
 cluster(district)
 sum pc_mainwork_fshare if e(sample) == 1 & treat == 0 & post == 1
@@ -118,7 +119,7 @@ estadd local cm "`cm'"
 estimates store m1
 
 /* B. pc_main_al_fshare */
-reghdfe pc_main_al_fshare msl_elec_post treat_post_msl_elec treat_post  [pw = pc_tot_p], ///
+reghdfe pc_main_al_fshare msl_elec_post treat_post_msl_elec treat_post $covar_trends  [pw = pc_tot_p], ///
 absorb(district period state_trend dec_trend quart_trend) ///
 cluster(district)
 sum pc_main_al_fshare if e(sample) == 1 & treat == 0 & post == 1
@@ -128,7 +129,7 @@ estadd local cm "`cm'"
 estimates store m2
 
 /* C. pc_main_cl_fshare */
-reghdfe pc_main_cl_fshare msl_elec_post treat_post_msl_elec treat_post  [pw = pc_tot_p], ///
+reghdfe pc_main_cl_fshare msl_elec_post treat_post_msl_elec treat_post $covar_trends  [pw = pc_tot_p], ///
 absorb(district period state_trend dec_trend quart_trend) ///
 cluster(district)
 sum pc_main_cl_fshare if e(sample) == 1 & treat == 0 & post == 1
@@ -138,7 +139,7 @@ estadd local cm "`cm'"
 estimates store m3
 
 /* D. pc_main_ot_fshare */
-reghdfe pc_main_ot_fshare msl_elec_post treat_post_msl_elec treat_post  [pw = pc_tot_p], ///
+reghdfe pc_main_ot_fshare msl_elec_post treat_post_msl_elec treat_post $covar_trends  [pw = pc_tot_p], ///
 absorb(district period state_trend dec_trend quart_trend) ///
 cluster(district)
 sum pc_main_ot_fshare if e(sample) == 1 & treat == 0 & post == 1
@@ -148,7 +149,7 @@ estadd local cm "`cm'"
 estimates store m4
 
 /* E. pc_main_hh_fshare */
-reghdfe pc_main_hh_fshare msl_elec_post treat_post_msl_elec treat_post  [pw = pc_tot_p], ///
+reghdfe pc_main_hh_fshare msl_elec_post treat_post_msl_elec treat_post $covar_trends  [pw = pc_tot_p], ///
 absorb(district period state_trend dec_trend quart_trend) ///
 cluster(district)
 sum pc_main_hh_fshare if e(sample) == 1 & treat == 0 & post == 1
@@ -158,7 +159,7 @@ estadd local cm "`cm'"
 estimates store m5
 
 /* F. ec_share_count_own_f */
-reghdfe ec_share_count_own_f msl_elec_post treat_post_msl_elec treat_post  [pw = pc_tot_p], ///
+reghdfe ec_share_count_own_f msl_elec_post treat_post_msl_elec treat_post $covar_trends  [pw = pc_tot_p], ///
 absorb(district period state_trend dec_trend quart_trend) ///
 cluster(district)
 sum ec_share_count_own_f if e(sample) == 1 & treat == 0 & post == 1
@@ -168,7 +169,7 @@ estadd local cm "`cm'"
 estimates store m6
 
 /* G. ec_share_count_f */
-reghdfe ec_share_count_f msl_elec_post treat_post_msl_elec treat_post  [pw = pc_tot_p], ///
+reghdfe ec_share_count_f msl_elec_post treat_post_msl_elec treat_post $covar_trends  [pw = pc_tot_p], ///
 absorb(district period state_trend dec_trend quart_trend) ///
 cluster(district)
 sum ec_share_count_f if e(sample) == 1 & treat == 0 & post == 1
@@ -178,7 +179,7 @@ estadd local cm "`cm'"
 estimates store m7
 
 /* H. ec_share_emp_f */
-reghdfe ec_share_emp_f msl_elec_post treat_post_msl_elec treat_post  [pw = pc_tot_p], ///
+reghdfe ec_share_emp_f msl_elec_post treat_post_msl_elec treat_post $covar_trends  [pw = pc_tot_p], ///
 absorb(district period state_trend dec_trend quart_trend) ///
 cluster(district)
 sum ec_share_emp_f if e(sample) == 1 & treat == 0 & post == 1

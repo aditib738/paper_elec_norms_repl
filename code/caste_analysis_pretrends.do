@@ -36,6 +36,19 @@ drop pc_tot_p
 bys shrid2: egen pc_tot_p = max(pop)
 drop pop
 
+/* merge with covars */
+ren shrid1 shrid
+merge m:1 shrid using $tmp/covars, keep(match) nogen
+
+/* create interactions */
+ren pc01_vd_* *
+global covars t_p m_sch s_sch s_s_sch college hosp tot_exp tot_irr tar_road dist_town
+foreach var of var $covars {
+gen post_`var' = post * `var'
+}
+
+global covar_trends post_*
+
 /********************************************************/
 /* Generate caste composition and relevant interactions */
 /********************************************************/
@@ -65,7 +78,7 @@ log using $out/caste_pretrends.txt, text replace
 /*********/
 
 
-reghdfe pc_mainwork_fshare treat_post scst scst_post elec_scst [pw = pc_tot_p], ///
+reghdfe pc_mainwork_fshare $covar_trends treat_post scst scst_post elec_scst [pw = pc_tot_p], ///
 absorb(district period state_trend dec_trend quart_trend) cluster(district) 
 sum pc_mainwork_fshare if e(sample) == 1 & treat == 0 & post == 1
 local mean = `r(mean)'
@@ -73,7 +86,7 @@ local cm: di %9.2f `mean'
 estadd local cm "`cm'"
 estimates store m1
 
-reghdfe pc_main_al_fshare treat_post scst scst_post elec_scst [pw = pc_tot_p], ///
+reghdfe pc_main_al_fshare $covar_trends treat_post scst scst_post elec_scst [pw = pc_tot_p], ///
 absorb(district period state_trend dec_trend quart_trend) cluster(district) 
 sum pc_main_al_fshare if e(sample) == 1 & treat == 0 & post == 1
 local mean = `r(mean)'
@@ -81,7 +94,7 @@ local cm: di %9.2f `mean'
 estadd local cm "`cm'"
 estimates store m2
 
-reghdfe pc_main_cl_fshare treat_post scst scst_post elec_scst [pw = pc_tot_p], ///
+reghdfe pc_main_cl_fshare $covar_trends treat_post scst scst_post elec_scst [pw = pc_tot_p], ///
 absorb(district period state_trend dec_trend quart_trend) cluster(district) 
 sum pc_main_cl_fshare if e(sample) == 1 & treat == 0 & post == 1
 local mean = `r(mean)'
@@ -89,7 +102,7 @@ local cm: di %9.2f `mean'
 estadd local cm "`cm'"
 estimates store m3
 
-reghdfe pc_main_ot_fshare treat_post scst scst_post elec_scst [pw = pc_tot_p], ///
+reghdfe pc_main_ot_fshare $covar_trends treat_post scst scst_post elec_scst [pw = pc_tot_p], ///
 absorb(district period state_trend dec_trend quart_trend) cluster(district) 
 sum pc_main_ot_fshare if e(sample) == 1 & treat == 0 & post == 1
 local mean = `r(mean)'
@@ -97,7 +110,7 @@ local cm: di %9.2f `mean'
 estadd local cm "`cm'"
 estimates store m4
 
-reghdfe pc_main_hh_fshare treat_post scst scst_post elec_scst [pw = pc_tot_p], ///
+reghdfe pc_main_hh_fshare $covar_trends treat_post scst scst_post elec_scst [pw = pc_tot_p], ///
 absorb(district period state_trend dec_trend quart_trend) cluster(district) 
 sum pc_main_hh_fshare if e(sample) == 1 & treat == 0 & post == 1
 local mean = `r(mean)'
@@ -105,7 +118,7 @@ local cm: di %9.2f `mean'
 estadd local cm "`cm'"
 estimates store m5
 
-reghdfe ec_share_count_own_f treat_post scst scst_post elec_scst [pw = pc_tot_p], ///
+reghdfe ec_share_count_own_f $covar_trends treat_post scst scst_post elec_scst [pw = pc_tot_p], ///
 absorb(district period state_trend dec_trend quart_trend) cluster(district) 
 sum ec_share_count_own_f if e(sample) == 1 & treat == 0 & post == 1
 local mean = `r(mean)'
@@ -113,7 +126,7 @@ local cm: di %9.2f `mean'
 estadd local cm "`cm'"
 estimates store m6
 
-reghdfe ec_share_count_f treat_post scst scst_post elec_scst [pw = pc_tot_p], ///
+reghdfe ec_share_count_f $covar_trends treat_post scst scst_post elec_scst [pw = pc_tot_p], ///
 absorb(district period state_trend dec_trend quart_trend) cluster(district) 
 sum ec_share_count_f if e(sample) == 1 & treat == 0 & post == 1
 local mean = `r(mean)'
@@ -121,7 +134,7 @@ local cm: di %9.2f `mean'
 estadd local cm "`cm'"
 estimates store m7
 
-reghdfe ec_share_emp_f treat_post scst scst_post elec_scst [pw = pc_tot_p], ///
+reghdfe ec_share_emp_f $covar_trends treat_post scst scst_post elec_scst [pw = pc_tot_p], ///
 absorb(district period state_trend dec_trend quart_trend) cluster(district) 
 sum ec_share_emp_f if e(sample) == 1 & treat == 0 & post == 1
 local mean = `r(mean)'
@@ -145,7 +158,7 @@ star(* 0.10 ** 0.05 *** 0.01) b(3) nonotes se(3) replace
 /******/
 
 
-reghdfe pc_mainwork_fshare treat_post uc uc_post elec_uc [pw = pc_tot_p], ///
+reghdfe pc_mainwork_fshare $covar_trends treat_post uc uc_post elec_uc [pw = pc_tot_p], ///
 absorb(district period state_trend dec_trend quart_trend) cluster(district) 
 sum pc_mainwork_fshare if e(sample) == 1 & treat == 0 & post == 1
 local mean = `r(mean)'
@@ -153,7 +166,7 @@ local cm: di %9.2f `mean'
 estadd local cm "`cm'"
 estimates store m1
 
-reghdfe pc_main_al_fshare treat_post uc uc_post elec_uc [pw = pc_tot_p], ///
+reghdfe pc_main_al_fshare $covar_trends treat_post uc uc_post elec_uc [pw = pc_tot_p], ///
 absorb(district period state_trend dec_trend quart_trend) cluster(district) 
 sum pc_main_al_fshare if e(sample) == 1 & treat == 0 & post == 1
 local mean = `r(mean)'
@@ -161,7 +174,7 @@ local cm: di %9.2f `mean'
 estadd local cm "`cm'"
 estimates store m2
 
-reghdfe pc_main_cl_fshare treat_post uc uc_post elec_uc [pw = pc_tot_p], ///
+reghdfe pc_main_cl_fshare $covar_trends treat_post uc uc_post elec_uc [pw = pc_tot_p], ///
 absorb(district period state_trend dec_trend quart_trend) cluster(district) 
 sum pc_main_cl_fshare if e(sample) == 1 & treat == 0 & post == 1
 local mean = `r(mean)'
@@ -169,7 +182,7 @@ local cm: di %9.2f `mean'
 estadd local cm "`cm'"
 estimates store m3
 
-reghdfe pc_main_ot_fshare treat_post uc uc_post elec_uc [pw = pc_tot_p], ///
+reghdfe pc_main_ot_fshare $covar_trends treat_post uc uc_post elec_uc [pw = pc_tot_p], ///
 absorb(district period state_trend dec_trend quart_trend) cluster(district) 
 sum pc_main_ot_fshare if e(sample) == 1 & treat == 0 & post == 1
 local mean = `r(mean)'
@@ -177,7 +190,7 @@ local cm: di %9.2f `mean'
 estadd local cm "`cm'"
 estimates store m4
 
-reghdfe pc_main_hh_fshare treat_post uc uc_post elec_uc [pw = pc_tot_p], ///
+reghdfe pc_main_hh_fshare $covar_trends treat_post uc uc_post elec_uc [pw = pc_tot_p], ///
 absorb(district period state_trend dec_trend quart_trend) cluster(district) 
 sum pc_main_hh_fshare if e(sample) == 1 & treat == 0 & post == 1
 local mean = `r(mean)'
@@ -185,7 +198,7 @@ local cm: di %9.2f `mean'
 estadd local cm "`cm'"
 estimates store m5
 
-reghdfe ec_share_count_own_f treat_post uc uc_post elec_uc [pw = pc_tot_p], ///
+reghdfe ec_share_count_own_f $covar_trends treat_post uc uc_post elec_uc [pw = pc_tot_p], ///
 absorb(district period state_trend dec_trend quart_trend) cluster(district) 
 sum ec_share_count_own_f if e(sample) == 1 & treat == 0 & post == 1
 local mean = `r(mean)'
@@ -193,7 +206,7 @@ local cm: di %9.2f `mean'
 estadd local cm "`cm'"
 estimates store m6
 
-reghdfe ec_share_count_f treat_post uc uc_post elec_uc [pw = pc_tot_p], ///
+reghdfe ec_share_count_f $covar_trends treat_post uc uc_post elec_uc [pw = pc_tot_p], ///
 absorb(district period state_trend dec_trend quart_trend) cluster(district) 
 sum ec_share_count_f if e(sample) == 1 & treat == 0 & post == 1
 local mean = `r(mean)'
@@ -201,7 +214,7 @@ local cm: di %9.2f `mean'
 estadd local cm "`cm'"
 estimates store m7
 
-reghdfe ec_share_emp_f treat_post uc uc_post elec_uc [pw = pc_tot_p], ///
+reghdfe ec_share_emp_f $covar_trends treat_post uc uc_post elec_uc [pw = pc_tot_p], ///
 absorb(district period state_trend dec_trend quart_trend) cluster(district) 
 sum ec_share_emp_f if e(sample) == 1 & treat == 0 & post == 1
 local mean = `r(mean)'

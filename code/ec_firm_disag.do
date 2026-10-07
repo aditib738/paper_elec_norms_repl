@@ -1,5 +1,15 @@
-/* Prep economic census data to do analysis separately by firm owner */
-/* gender to speak to Chiplunkar results */
+/* import dataset */
+use ~/data/ec05_shrid, clear
+
+/* create new variables */
+gen base_fem_share = ec05_count_own_f/ec05_count_all
+
+/* keep variables of interest */
+keep base* shrid2
+
+/* compress and save */
+compress
+save $tmp/ec_working, replace
 
 /* bring in analysis dataset */
 use $tmp/elec_analysis, clear
@@ -38,12 +48,26 @@ merge m:1 shrid2 using $tmp/ec_working, keep(match) nogen
 gen treat_base_share = base_fem_share*treat_post
 gen base_post = base_fem_share*post
 
+/* merge with covars */
+ren shrid1 shrid
+merge m:1 shrid using ~/data/covars, keep(match) nogen
+
+/* create interactions */
+ren pc01_vd_* *
+global covars t_p m_sch s_sch s_s_sch college hosp tot_exp tot_irr tar_road dist_town
+foreach var of var $covars {
+gen pre_`var' = pre * `var'
+gen post_`var' = post * `var'
+}
+
+global covar_trends pre_* post_*
+
 /*******************/
 /* Run regressions */
 /*******************/
 
 /* outcome: female share of non ag labor force */
-reghdfe ec_share_emp_f base_post treat_base_share treat_post  [pw = pc_tot_p], ///
+reghdfe ec_share_emp_f base_post treat_base_share treat_post $covar_trends  [pw = pc_tot_p], ///
 absorb(district period state_trend dec_trend quart_trend) ///
 cluster(district)
 sum base_fem_share if e(sample) == 1 
@@ -57,7 +81,7 @@ estadd local cm "`cm'"
 estimates store m1
 
 /* outcome: share of firms employing women */
-reghdfe ec_share_count_f base_post treat_base_share treat_post  [pw = pc_tot_p], ///
+reghdfe ec_share_count_f base_post treat_base_share treat_post $covar_trends  [pw = pc_tot_p], ///
 absorb(district period state_trend dec_trend quart_trend) ///
 cluster(district)
 sum base_fem_share if e(sample) == 1 
@@ -85,3 +109,4 @@ star(* 0.10 ** 0.05 *** 0.01) b(3) nonotes se(3) replace
 
 
 
+ 
