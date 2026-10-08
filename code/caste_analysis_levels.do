@@ -1,6 +1,3 @@
-/* controls fe interacted version of caste table */
-/* import data */
-/* replicate purdah analysis at village level */
 /* import data */
 use $tmp/ihds_dist_analysis, clear
 

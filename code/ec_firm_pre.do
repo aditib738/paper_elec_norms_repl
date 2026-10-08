@@ -1,24 +1,6 @@
 /* run pretrends test on firm ownership interaction analysis */
-/* Prep economic census data to do analysis separately by firm owner */
-/* gender to speak to Chiplunkar results */
 
 /* only use economic census outcomes for this analysis */
-
-/* first prep ec05 data for this */
-
-/* import dataset */
-use ~/data/ec05_shrid, clear
-
-/* create new variables */
-gen base_fem_share = ec05_count_own_f/ec05_count_all
-
-/* keep variables of interest */
-keep base* shrid2
-
-/* compress and save */
-compress
-save $tmp/ec_working, replace
-
 /* bring in analysis dataset */
 use $tmp/main_analysis, clear
 

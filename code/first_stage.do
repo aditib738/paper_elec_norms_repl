@@ -1,5 +1,5 @@
 /* bring in night lights panel */
-use ~/data/dmsp_pc11dist.dta, clear
+use $tmp/dmsp_pc11dist.dta, clear
 
 /* merge with treatment status */
 destring pc11_state_id pc11_district_id, replace

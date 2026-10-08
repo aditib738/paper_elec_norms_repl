@@ -1,16 +1,3 @@
-/* import dataset */
-use ~/data/ec05_shrid, clear
-
-/* create new variables */
-gen base_fem_share = ec05_count_own_f/ec05_count_all
-
-/* keep variables of interest */
-keep base* shrid2
-
-/* compress and save */
-compress
-save $tmp/ec_working, replace
-
 /* bring in analysis dataset */
 use $tmp/elec_analysis, clear
 
